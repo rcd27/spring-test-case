@@ -65,7 +65,7 @@ tasks.create("buildDockerImage", DockerBuildImage::class) {
     dependsOn.add("copyApp")
     inputDir.set(file("build/docker/"))
 
-    images.add("github.com/rcd27/spring-test-case:latest")
+    images.add("registry.github.com/rcd27/spring-test-case:latest")
 }
 
 // TODO: create task for pushing docker image
