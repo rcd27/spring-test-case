@@ -18,8 +18,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.springframework.boot:spring-boot-starter-amqp")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -27,9 +26,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    testImplementation("io.mockk:mockk:1.9")
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.0.1")
-    testImplementation("io.kotest:kotest-assertions-core-jvm:4.0.1")
+    testImplementation("org.springframework.amqp:spring-rabbit-test")
 }
 
 tasks.withType<Test> {
