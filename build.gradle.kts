@@ -1,4 +1,5 @@
 import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+import java.net.URI
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -7,6 +8,7 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     id("com.bmuschko.docker-remote-api") version "6.4.0"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 }
 
 group = "com.github.rcd27"
@@ -15,6 +17,9 @@ java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
     mavenCentral()
+    maven {
+        url = URI("https://plugins.gradle.org/m2/")
+    }
 }
 
 dependencies {
@@ -28,6 +33,17 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
     testImplementation("org.springframework.amqp:spring-rabbit-test")
+}
+
+// Run Ktlint before every build
+tasks.register("ktlint") {
+    exec {
+        executable = "./gradlew"
+        args = listOf("ktlintFormat")
+    }
+}
+tasks.getByName("compileKotlin") {
+    dependsOn("ktlint")
 }
 
 tasks.withType<Test> {
@@ -50,7 +66,7 @@ val archiveName = tasks.getByName("jar").property("archiveName")
 tasks.create("copyApp", Copy::class.java) {
     dependsOn.add("build")
 
-    from("$buildDir/libs/${archiveName}") {
+    from("$buildDir/libs/$archiveName") {
         rename { "spring-test-case.jar" }
     }
 

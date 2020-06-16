@@ -1,7 +1,7 @@
 package com.github.rcd27.springtestcase
 
-import com.github.rcd27.springtestcase.rabbit.receiver.Receiver
-import com.github.rcd27.springtestcase.rabbit.receiver.Receiver.Companion.receiveMethodName
+import com.github.rcd27.springtestcase.rabbit.receiver.RabbitMQReceiver
+import com.github.rcd27.springtestcase.rabbit.receiver.RabbitMQReceiver.Companion.receiveMethodName
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.Queue
@@ -49,8 +49,9 @@ class SpringTestCaseApplication {
     /**
      * Must-have for receiving messages
      */
-    @Bean fun container(connectionFactory: ConnectionFactory,
-                        listenerAdapter: MessageListenerAdapter
+    @Bean fun container(
+        connectionFactory: ConnectionFactory,
+        listenerAdapter: MessageListenerAdapter
     ): SimpleMessageListenerContainer {
 
         return SimpleMessageListenerContainer().apply {
@@ -64,7 +65,7 @@ class SpringTestCaseApplication {
      * [Receiver] is registered here to listen for the messages.
      * It listens for the messages on the spring-boot queue
      */
-    @Bean fun listenerAdapter(receiver: Receiver): MessageListenerAdapter {
+    @Bean fun listenerAdapter(receiver: RabbitMQReceiver): MessageListenerAdapter {
         return MessageListenerAdapter(receiver, receiveMethodName)
     }
 }
