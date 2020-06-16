@@ -7,10 +7,14 @@ import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.router
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Configuration
 class RegistrationHandler {
+
+    // TODO: create something like BehaviorSubject in RxJava to store the current state of registration
+    val registrationState: Flux<Boolean>? = null
 
     @Bean
     fun route() = router {
