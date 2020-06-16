@@ -1,4 +1,4 @@
-package com.github.rcd27.springtestcase.receiver
+package com.github.rcd27.springtestcase.rabbit.receiver
 
 import org.springframework.stereotype.Component
 

@@ -1,7 +1,7 @@
 package com.github.rcd27.springtestcase
 
-import com.github.rcd27.springtestcase.receiver.Receiver
-import com.github.rcd27.springtestcase.receiver.Receiver.Companion.receiveMethodName
+import com.github.rcd27.springtestcase.rabbit.receiver.Receiver
+import com.github.rcd27.springtestcase.rabbit.receiver.Receiver.Companion.receiveMethodName
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder
 import org.springframework.amqp.core.Queue
