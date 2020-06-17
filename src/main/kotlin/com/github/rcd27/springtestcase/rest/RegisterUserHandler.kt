@@ -21,12 +21,12 @@ import reactor.core.publisher.Mono
 
 @Configuration
 class RegistrationHandler constructor(
-    private val userRepository: UserRepository,
-    private val rabbitTemplate: RabbitTemplate
+        private val userRepository: UserRepository,
+        private val rabbitTemplate: RabbitTemplate
 ) {
 
     // TODO: create something like BehaviorSubject in RxJava to store the current state of registration
-    val registrationState: Flux<Boolean>? = null
+    val registrationState: Flux<RegistrationState>? = null
 
     @Bean fun route() = router {
         accept(MediaType.APPLICATION_JSON).nest {
@@ -38,46 +38,59 @@ class RegistrationHandler constructor(
             { request: ServerRequest ->
                 val registerRequest = request.bodyToMono(RegisterUserRequest::class.java)
 
-                ok().build { subscriber ->
-                    registerRequest
-                            .flatMap { r: RegisterUserRequest -> RegisterInputValidation.validate(r) }
-                            .flatMap { validationResult ->
-                                when (validationResult) {
-                                    is Valid -> {
-                                        val value = validationResult.a
-                                        userRepository.save(
-                                                User(
-                                                        firstName = value.firstName,
-                                                        lastName = value.lastName,
-                                                        email = value.email,
-                                                        dateOfBirth = value.dateOfBirth,
-                                                        registrationCity = value.registrationCity,
-                                                        habitatCity = value.habitatCity
-                                                )
-                                        )
-                                    }
-                                    is Invalid -> Mono.error(ValidationException(validationResult.e))
+                registerRequest
+                        .flatMap { r: RegisterUserRequest -> RegisterInputValidation.validate(r) }
+                        .flatMap { validationResult ->
+                            when (validationResult) {
+                                is Valid -> {
+                                    val value = validationResult.a
+                                    userRepository.save(
+                                            User(
+                                                    firstName = value.firstName,
+                                                    lastName = value.lastName,
+                                                    email = value.email,
+                                                    dateOfBirth = value.dateOfBirth,
+                                                    registrationCity = value.registrationCity,
+                                                    habitatCity = value.habitatCity
+                                            )
+                                    )
+                                            .flatMap { savedUser ->
+                                                Mono.just(ValidationOk(savedUser))
+                                            }
                                 }
+                                is Invalid -> Mono.just(ValidationError(validationResult.e))
                             }
-                            .flatMap {
-                                Mono.fromCallable {
+                        }
+                        .flatMap {
+                            when (it) {
+                                is ValidationError -> Mono.just(it)
+                                else -> Mono.fromCallable {
                                     rabbitTemplate.convertAndSend(
                                             SpringTestCaseApplication.topicExchangeName,
                                             "${SpringTestCaseApplication.messageRoutingKey}$it",
                                             "Saved user to db and sent message: $it"
                                     )
                                 }
+                                        .map<RegistrationState> { RabbitMessageSent }
                             }
-                            .subscribe(
-                                    {
-                                        subscriber.onComplete()
-                                    },
-                                    {
-                                        subscriber.onError(it)
-                                    }
-                            )
-                }
+                        }
+                        .flatMap { state ->
+                            when (state) {
+                                is ValidationError -> {
+                                    val errorMessage =
+                                            state.validationErrors.foldLeft("Validation errors:",
+                                                    { s: String, e: RegisterUserValidationError ->
+                                                        "$s\n${e.message}"
+                                                    })
+                                    ServerResponse.badRequest().bodyValue(errorMessage)
+                                }
+                                else -> ok().build()
+                            }
+                        }
             }
 }
 
-data class ValidationException(val validationError: NonEmptyList<RegisterUserValidationError>) : Throwable()
+sealed class RegistrationState
+data class ValidationOk(val user: User) : RegistrationState()
+data class ValidationError(val validationErrors: NonEmptyList<RegisterUserValidationError>) : RegistrationState()
+object RabbitMessageSent : RegistrationState()
