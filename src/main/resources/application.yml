@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: spring-test-case
+  data:
+    mongodb:
+      database: mongo-wongo
+      host: localhost
+      port: 27015

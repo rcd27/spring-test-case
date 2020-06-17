@@ -3,6 +3,8 @@ package com.github.rcd27.springtestcase.rest
 import arrow.core.Invalid
 import arrow.core.NonEmptyList
 import arrow.core.Valid
+import com.github.rcd27.springtestcase.db.User
+import com.github.rcd27.springtestcase.db.UserRepository
 import com.github.rcd27.springtestcase.validation.RegisterInputValidation
 import com.github.rcd27.springtestcase.validation.RegisterUserValidationError
 import org.springframework.context.annotation.Bean
@@ -16,13 +18,12 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Configuration
-class RegistrationHandler {
+class RegistrationHandler constructor(private val userRepository: UserRepository) {
 
     // TODO: create something like BehaviorSubject in RxJava to store the current state of registration
     val registrationState: Flux<Boolean>? = null
 
-    @Bean
-    fun route() = router {
+    @Bean fun route() = router {
         accept(MediaType.APPLICATION_JSON).nest {
             POST("/register/user", this@RegistrationHandler.handleRegisterPerson)
         }
@@ -37,8 +38,19 @@ class RegistrationHandler {
                             .flatMap { r: RegisterUserRequest -> RegisterInputValidation.validate(r) }
                             .flatMap { validationResult ->
                                 when (validationResult) {
-                                    is Valid -> Mono.fromCallable {
-                                        TODO("save to mongo")
+                                    is Valid -> {
+                                        val value = validationResult.a
+                                        userRepository.save(
+                                                User(
+                                                        // FIXME: unwrap from "" - dirty hack of nullablility
+                                                        firstName = "${value.firstName}",
+                                                        lastName = "${value.lastName}",
+                                                        email = "${value.email}",
+                                                        dateOfBirth = "${value.dateOfBirth}",
+                                                        registrationCity = value.registrationCity,
+                                                        habitatCity = value.habitatCity
+                                                )
+                                        )
                                     }
                                     is Invalid -> Mono.error(ValidationException(validationResult.e))
                                 }

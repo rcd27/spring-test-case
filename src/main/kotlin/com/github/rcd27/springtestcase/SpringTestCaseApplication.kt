@@ -62,7 +62,7 @@ class SpringTestCaseApplication {
     }
 
     /**
-     * [Receiver] is registered here to listen for the messages.
+     * [RabbitMQReceiver] is registered here to listen for the messages.
      * It listens for the messages on the spring-boot queue
      */
     @Bean fun listenerAdapter(receiver: RabbitMQReceiver): MessageListenerAdapter {
