@@ -3,10 +3,12 @@ package com.github.rcd27.springtestcase.rest
 import arrow.core.Invalid
 import arrow.core.NonEmptyList
 import arrow.core.Valid
+import com.github.rcd27.springtestcase.SpringTestCaseApplication
 import com.github.rcd27.springtestcase.db.User
 import com.github.rcd27.springtestcase.db.UserRepository
 import com.github.rcd27.springtestcase.validation.RegisterInputValidation
 import com.github.rcd27.springtestcase.validation.RegisterUserValidationError
+import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -18,7 +20,10 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Configuration
-class RegistrationHandler constructor(private val userRepository: UserRepository) {
+class RegistrationHandler constructor(
+    private val userRepository: UserRepository,
+    private val rabbitTemplate: RabbitTemplate
+) {
 
     // TODO: create something like BehaviorSubject in RxJava to store the current state of registration
     val registrationState: Flux<Boolean>? = null
@@ -42,7 +47,7 @@ class RegistrationHandler constructor(private val userRepository: UserRepository
                                         val value = validationResult.a
                                         userRepository.save(
                                                 User(
-                                                        // FIXME: unwrap from "" - dirty hack of nullablility
+                                                        // FIXME: unwrap from "" - dirty hack of nullability
                                                         firstName = "${value.firstName}",
                                                         lastName = "${value.lastName}",
                                                         email = "${value.email}",
@@ -56,8 +61,13 @@ class RegistrationHandler constructor(private val userRepository: UserRepository
                                 }
                             }
                             .flatMap {
-                                // TODO: send message from RabbitMQ
-                                Mono.just(Unit)
+                                Mono.fromCallable {
+                                    rabbitTemplate.convertAndSend(
+                                            SpringTestCaseApplication.topicExchangeName,
+                                            "${SpringTestCaseApplication.messageRoutingKey}baz",
+                                            "Saved user to db and sent message: $it"
+                                    )
+                                }
                             }
                             .subscribe(
                                     {
