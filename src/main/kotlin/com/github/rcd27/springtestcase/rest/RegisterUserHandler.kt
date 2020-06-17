@@ -47,11 +47,10 @@ class RegistrationHandler constructor(
                                         val value = validationResult.a
                                         userRepository.save(
                                                 User(
-                                                        // FIXME: unwrap from "" - dirty hack of nullability
-                                                        firstName = "${value.firstName}",
-                                                        lastName = "${value.lastName}",
-                                                        email = "${value.email}",
-                                                        dateOfBirth = "${value.dateOfBirth}",
+                                                        firstName = value.firstName,
+                                                        lastName = value.lastName,
+                                                        email = value.email,
+                                                        dateOfBirth = value.dateOfBirth,
                                                         registrationCity = value.registrationCity,
                                                         habitatCity = value.habitatCity
                                                 )
@@ -64,7 +63,7 @@ class RegistrationHandler constructor(
                                 Mono.fromCallable {
                                     rabbitTemplate.convertAndSend(
                                             SpringTestCaseApplication.topicExchangeName,
-                                            "${SpringTestCaseApplication.messageRoutingKey}baz",
+                                            "${SpringTestCaseApplication.messageRoutingKey}$it",
                                             "Saved user to db and sent message: $it"
                                     )
                                 }

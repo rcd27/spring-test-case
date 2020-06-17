@@ -21,8 +21,8 @@ fun main(args: Array<String>) {
 class SpringTestCaseApplication {
     companion object {
         const val queueName = "rabbit-queue"
-        const val topicExchangeName = "emailValidation" // or not?
-        const val messageRoutingKey = "foo.bar.#"
+        const val topicExchangeName = "user-registration"
+        const val messageRoutingKey = "register.#"
     }
 
     /**

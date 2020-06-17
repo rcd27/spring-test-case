@@ -17,7 +17,7 @@ object RegisterInputValidation {
      * if [RegisterUserRequest] is invalid, at least one invalid value will be present
      */
     fun validate(input: RegisterUserRequest):
-            Mono<Validated<NonEmptyList<RegisterUserValidationError>, RegisterUserRequest>> {
+            Mono<Validated<NonEmptyList<RegisterUserValidationError>, ValidatedRegisterUserRequest>> {
 
         val errorList = mutableListOf<RegisterUserValidationError>()
 
@@ -42,7 +42,14 @@ object RegisterInputValidation {
         // let information about cities be null
         return when (val resultErrorList = NonEmptyList.fromList(errorList)) {
             is Some -> Mono.just(Invalid(resultErrorList.t))
-            is None -> Mono.just(Valid(input))
+            is None -> Mono.just(Valid(ValidatedRegisterUserRequest(
+                    firstName = input.firstName!!, // we can use `!!` here because if there was a null -> `Some` branch will handle
+                    lastName = input.lastName!!,
+                    dateOfBirth = input.dateOfBirth!!,
+                    email = input.email!!,
+                    habitatCity = input.habitatCity,
+                    registrationCity = input.registrationCity
+            )))
         }
     }
 }
