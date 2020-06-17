@@ -21,8 +21,8 @@ import reactor.core.publisher.Mono
 
 @Configuration
 class RegistrationHandler constructor(
-        private val userRepository: UserRepository,
-        private val rabbitTemplate: RabbitTemplate
+    private val userRepository: UserRepository,
+    private val rabbitTemplate: RabbitTemplate
 ) {
 
     // TODO: create something like BehaviorSubject in RxJava to store the current state of registration
@@ -40,6 +40,7 @@ class RegistrationHandler constructor(
 
                 registerRequest
                         .flatMap { r: RegisterUserRequest -> RegisterInputValidation.validate(r) }
+                        // FIXME: since validation can be Either<Ok,NotOk>, change return type to Either<ValidationOk,ValidationError>
                         .flatMap { validationResult ->
                             when (validationResult) {
                                 is Valid -> {
