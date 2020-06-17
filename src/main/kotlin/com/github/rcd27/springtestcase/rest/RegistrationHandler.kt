@@ -1,5 +1,10 @@
 package com.github.rcd27.springtestcase.rest
 
+import arrow.core.Invalid
+import arrow.core.NonEmptyList
+import arrow.core.Valid
+import com.github.rcd27.springtestcase.validation.RegisterInputValidation
+import com.github.rcd27.springtestcase.validation.RegisterUserValidationError
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
@@ -29,16 +34,29 @@ class RegistrationHandler {
 
                 ok().build { subscriber ->
                     registerRequest
-                            .flatMap { r: RegisterUserRequest -> validateRegistrationForm(r) }
-                            .subscribe {
-                                println("Got some register request.")
-                                subscriber.onComplete()
+                            .flatMap { r: RegisterUserRequest -> RegisterInputValidation.validate(r) }
+                            .flatMap { validationResult ->
+                                when (validationResult) {
+                                    is Valid -> Mono.fromCallable {
+                                        TODO("save to mongo")
+                                    }
+                                    is Invalid -> Mono.error(ValidationException(validationResult.e))
+                                }
                             }
+                            .flatMap {
+                                // TODO: send message from RabbitMQ
+                                Mono.just(Unit)
+                            }
+                            .subscribe(
+                                    {
+                                        subscriber.onComplete()
+                                    },
+                                    {
+                                        subscriber.onError(it)
+                                    }
+                            )
                 }
             }
-
-    private fun validateRegistrationForm(it: RegisterUserRequest): Mono<Unit> {
-        // TODO: validate input
-        return Mono.just(Unit)
-    }
 }
+
+data class ValidationException(val validationError: NonEmptyList<RegisterUserValidationError>) : Throwable()

@@ -19,12 +19,16 @@ repositories {
     mavenCentral()
     maven {
         url = URI("https://plugins.gradle.org/m2/")
+        url = URI("https://dl.bintray.com/arrow-kt/arrow-kt/")
     }
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-amqp")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    implementation("io.arrow-kt:arrow-core:0.10.4")
+    implementation("io.arrow-kt:arrow-syntax:0.10.4")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
