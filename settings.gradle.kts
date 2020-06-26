@@ -1,1 +1,2 @@
-rootProject.name = "spring-test-case"
+rootProject.name = "spring-test-case-remake"
+include("api", "approver", "idgenerator", "mailer")
