@@ -5,4 +5,4 @@ import reactor.core.publisher.Mono
 interface IdGenerationRepository {
 
   fun generateUniqueId(): Mono<String>
-  }
+}

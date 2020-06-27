@@ -1,5 +1,6 @@
 package com.github.rcd27.api.entities.dto
 
+// TODO: посмотреть SelfValidation
 data class VerificationRequest(
     val firstName: String,
     val lastName: String,
