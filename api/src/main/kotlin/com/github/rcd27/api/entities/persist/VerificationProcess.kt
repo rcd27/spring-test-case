@@ -7,7 +7,7 @@ data class VerificationProcess(
     val id: String,
     val status: VerificationStatus
 ) {
-  enum class VerificationStatus {
-    IN_PROGRESS, DECLINED, APPROVED
-  }
+    enum class VerificationStatus {
+        IN_PROGRESS, DECLINED, APPROVED
+    }
 }

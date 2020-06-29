@@ -6,13 +6,13 @@ import reactor.core.publisher.Mono
 
 interface VerificationStatusUseCase {
 
-  fun checkVerificationStatus(): Mono<VerificationProcess>
+    fun checkVerificationStatus(): Mono<VerificationProcess>
 
-  @Service
-  class VerificationStatusService : VerificationStatusUseCase {
+    @Service
+    class VerificationStatusService : VerificationStatusUseCase {
 
-    override fun checkVerificationStatus(): Mono<VerificationProcess> {
-      TODO("implement")
+        override fun checkVerificationStatus(): Mono<VerificationProcess> {
+            TODO("implement")
+        }
     }
-  }
 }

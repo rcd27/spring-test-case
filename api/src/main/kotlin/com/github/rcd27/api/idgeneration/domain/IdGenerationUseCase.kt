@@ -7,13 +7,13 @@ import reactor.core.publisher.Mono
 
 interface IdGenerationUseCase {
 
-  fun getUniqueId(input: VerificationRequest): Mono<String>
+    fun getUniqueId(input: VerificationRequest): Mono<String>
 
-  @Service
-  class IdGenerationService(private val repository: IdGenerationRepository) : IdGenerationUseCase {
+    @Service
+    class IdGenerationService(private val repository: IdGenerationRepository) : IdGenerationUseCase {
 
-    // TODO: подумать над f(n) -> y
-    override fun getUniqueId(input: VerificationRequest): Mono<String> =
-        repository.generateUniqueId()
-  }
+        // TODO: подумать над f(n) -> y
+        override fun getUniqueId(input: VerificationRequest): Mono<String> =
+            repository.generateUniqueId()
+    }
 }

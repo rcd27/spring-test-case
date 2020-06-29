@@ -8,16 +8,17 @@ import reactor.core.publisher.Mono
 
 interface VerificationUseCase {
 
-  fun verify(uniqueId: String, input: VerificationRequest): Mono<VerificationProcess>
+    fun verify(uniqueId: String, input: VerificationRequest): Mono<VerificationProcess>
 
-  @Service
-  class VerificationService(private val processRepository: VerificationProcessRepository) : VerificationUseCase {
+    @Service
+    class VerificationService(private val processRepository: VerificationProcessRepository) : VerificationUseCase {
 
-    override fun verify(uniqueId: String, input: VerificationRequest): Mono<VerificationProcess> =
-        processRepository.save(
-            VerificationProcess(
-                uniqueId,
-                VerificationProcess.VerificationStatus.IN_PROGRESS)
-        )
-  }
+        override fun verify(uniqueId: String, input: VerificationRequest): Mono<VerificationProcess> =
+            processRepository.save(
+                VerificationProcess(
+                    uniqueId,
+                    VerificationProcess.VerificationStatus.IN_PROGRESS
+                )
+            )
+    }
 }
