@@ -43,6 +43,7 @@ subprojects {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
       exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    testImplementation("io.projectreactor:reactor-test:3.3.7.RELEASE")
     testImplementation("org.springframework.amqp:spring-rabbit-test")
     testImplementation("io.mockk:mockk:1.10.0")
     testImplementation("com.google.truth:truth:1.0.1")
