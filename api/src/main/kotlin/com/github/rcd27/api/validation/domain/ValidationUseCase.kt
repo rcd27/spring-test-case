@@ -8,15 +8,15 @@ import reactor.core.publisher.Mono
 
 interface ValidationUseCase {
 
-    fun validateVerificationRequest(input: VerificationRequest): Mono<Unit>
+  fun validateVerificationRequest(input: VerificationRequest): Mono<Unit>
 
-    @Service
-    class ValidationService(
-        @Qualifier("provideVerificationRequestValidator") private val verificationRequestValidator: Validator
-    ) : ValidationUseCase {
+  @Service
+  class ValidationService(
+    @Qualifier("provideVerificationRequestValidator") private val verificationRequestValidator: Validator
+  ) : ValidationUseCase {
 
-        override fun validateVerificationRequest(input: VerificationRequest): Mono<Unit> {
-            TODO("implement")
-        }
+    override fun validateVerificationRequest(input: VerificationRequest): Mono<Unit> {
+      TODO("implement")
     }
+  }
 }

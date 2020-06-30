@@ -34,12 +34,14 @@ internal class VerificationControllerTest {
   @Test
   fun main() {
     val request = VerificationRequest(
-        "Stanislav",
-        "Zemlyakov",
-        "redtom@yandex.ru",
-        "01.08.1989",
-        "Innopolis",
-        "Staint-Petersburg"
+      "Stanislav",
+      "Zemlyakov",
+      "redtom@yandex.ru",
+      "01.08.1989",
+      "Innopolis",
+      "Saint-Petersburg"
+
+      // FIXME: implement test case or get rid
     )
   }
 }

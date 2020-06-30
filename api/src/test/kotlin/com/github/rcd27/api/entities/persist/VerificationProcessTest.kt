@@ -22,7 +22,7 @@ class VerificationProcessTest {
     val savePublisher: Mono<VerificationProcess> = reactiveMongoTemplate.save(verificationProcess)
 
     StepVerifier.create(savePublisher)
-        .expectNextMatches { it.id.isNotEmpty() && it.status == VerificationProcess.VerificationStatus.IN_PROGRESS }
-        .verifyComplete()
+      .expectNextMatches { it.id.isNotEmpty() && it.status == VerificationProcess.VerificationStatus.IN_PROGRESS }
+      .verifyComplete()
   }
 }
