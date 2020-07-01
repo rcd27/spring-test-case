@@ -47,6 +47,7 @@ subprojects {
     testImplementation("org.springframework.amqp:spring-rabbit-test")
     testImplementation("io.mockk:mockk:1.10.0")
     testImplementation("com.google.truth:truth:1.0.1")
+    testImplementation("com.ninja-squad:springmockk:2.0.0")
   }
 }
 
