@@ -2,7 +2,6 @@ package com.github.rcd27.api.verification
 
 import com.github.rcd27.api.entities.dto.VerificationRequest
 import com.github.rcd27.api.idgeneration.domain.IdGenerationUseCase
-import com.github.rcd27.api.validation.domain.ValidationUseCase
 import com.github.rcd27.api.verification.domain.VerificationUseCase
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -18,7 +17,6 @@ internal class VerificationControllerTest {
 
   @MockBean lateinit var verificationUseCase: VerificationUseCase
   @MockBean lateinit var idGenerationUseCase: IdGenerationUseCase
-  @MockBean lateinit var validationUseCase: ValidationUseCase
 
   @Autowired lateinit var webClient: WebTestClient
 
@@ -39,9 +37,6 @@ internal class VerificationControllerTest {
 
     Mockito.`when`(idGenerationUseCase.getUniqueId(request))
         .thenReturn(Mono.just(testId))
-
-    Mockito.`when`(validationUseCase.validateVerificationRequest(request))
-        .thenReturn(Mono.just(Unit))
 
     Mockito.`when`(verificationUseCase.verify(testId, request))
         .thenReturn(Mono.just(testId))
