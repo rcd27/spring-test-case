@@ -5,7 +5,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 
-class TestConfigurationTest {
+class TestControllerTest {
 
   private val context = AnnotationConfigApplicationContext().apply {
     register(TestConfiguration::class.java)
