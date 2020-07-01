@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono
 open class TestController {
 
   @GetMapping("/test")
-  fun test(): Mono<String> = Mono.just("Fine, fine, you got it")
+  fun handle(): Mono<String> = Mono.just("Fine, fine, you got it")
 }

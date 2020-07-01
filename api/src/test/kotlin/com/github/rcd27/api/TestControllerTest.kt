@@ -1,18 +1,16 @@
 package com.github.rcd27.api
 
 import org.junit.jupiter.api.Test
-import org.springframework.context.annotation.AnnotationConfigApplicationContext
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 
+@WebFluxTest(TestController::class)
 class TestControllerTest {
 
-  private val context = AnnotationConfigApplicationContext().apply {
-    register(TestConfiguration::class.java)
-    refresh()
-  }
-
-  private val client: WebTestClient = WebTestClient.bindToApplicationContext(context).build()
+  @Autowired
+  lateinit var client: WebTestClient
 
   @Test
   fun test() {
