@@ -7,16 +7,16 @@ import org.springframework.validation.Validator
 import reactor.core.publisher.Mono
 
 interface ValidationUseCase {
-
+  // FIXME: (VerificationRequest) -> Validated<VerificationRequest>
   fun validateVerificationRequest(input: VerificationRequest): Mono<Unit>
+}
 
-  @Service
-  class ValidationService(
+@Service
+class ValidationService(
     @Qualifier("provideVerificationRequestValidator") private val verificationRequestValidator: Validator
-  ) : ValidationUseCase {
+) : ValidationUseCase {
 
-    override fun validateVerificationRequest(input: VerificationRequest): Mono<Unit> {
-      TODO("implement")
-    }
+  override fun validateVerificationRequest(input: VerificationRequest): Mono<Unit> {
+    TODO("implement")
   }
 }

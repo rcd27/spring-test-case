@@ -6,14 +6,11 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
 interface IdGenerationUseCase {
-
   fun getUniqueId(input: VerificationRequest): Mono<String>
+}
 
-  @Service
-  class IdGenerationService(private val repository: IdGenerationRepository) : IdGenerationUseCase {
-
-    // TODO: подумать над f(n) -> y
-    override fun getUniqueId(input: VerificationRequest): Mono<String> =
+@Service
+class IdGenerationService(private val repository: IdGenerationRepository) : IdGenerationUseCase {
+  override fun getUniqueId(input: VerificationRequest): Mono<String> =
       repository.generateUniqueId()
-  }
 }

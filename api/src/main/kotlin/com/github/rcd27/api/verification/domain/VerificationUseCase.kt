@@ -7,17 +7,21 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
 interface VerificationUseCase {
-  fun verify(uniqueId: String, input: VerificationRequest): Mono<VerificationProcess>
+  /**
+   * returns an unique id of particular [VerificationProcess]
+   */
+  fun verify(uniqueId: String, input: VerificationRequest): Mono<String>
 }
 
 @Service
 class VerificationService(private val processRepository: VerificationProcessRepository) : VerificationUseCase {
 
-  override fun verify(uniqueId: String, input: VerificationRequest): Mono<VerificationProcess> =
-    processRepository.save(
-      VerificationProcess(
-        uniqueId,
-        VerificationProcess.VerificationStatus.IN_PROGRESS
+  override fun verify(uniqueId: String, input: VerificationRequest): Mono<String> =
+      processRepository.save(
+          VerificationProcess(
+              uniqueId,
+              VerificationProcess.VerificationStatus.IN_PROGRESS
+          )
       )
-    )
+          .map { uniqueId }
 }
