@@ -23,7 +23,7 @@ class VerificationRepositoryTest {
    *  let it be a simple useless test case.
    */
   @Test
-  fun `simple useless test`() {
+  fun `simple useless db test`() {
     val getById = verificationProcessRepository.deleteAll()
       .thenMany(
         Flux.just(

@@ -13,6 +13,7 @@ interface VerificationUseCase {
   fun verify(uniqueId: String, input: VerificationRequest): Mono<String>
 }
 
+// TODO: send a verification message via RabbitMQ, then save to db and return the ID
 @Service
 class VerificationService(private val processRepository: VerificationProcessRepository) : VerificationUseCase {
 

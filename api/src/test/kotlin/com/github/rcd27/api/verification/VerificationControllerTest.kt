@@ -1,7 +1,9 @@
 package com.github.rcd27.api.verification
 
 import com.github.rcd27.api.entities.dto.VerificationRequest
+import com.github.rcd27.api.entities.persist.VerificationProcess
 import com.github.rcd27.api.idgeneration.domain.IdGenerationUseCase
+import com.github.rcd27.api.verification.domain.VerificationStatusUseCase
 import com.github.rcd27.api.verification.domain.VerificationUseCase
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito
@@ -17,11 +19,12 @@ internal class VerificationControllerTest {
 
   @MockBean lateinit var verificationUseCase: VerificationUseCase
   @MockBean lateinit var idGenerationUseCase: IdGenerationUseCase
+  @MockBean lateinit var verificationStatusUseCase: VerificationStatusUseCase
 
   @Autowired lateinit var webClient: WebTestClient
 
   @Test
-  fun main() {
+  fun `verify valid input`() {
     val request = VerificationRequest(
         "Stanislav",
         "Zemlyakov",
@@ -29,8 +32,6 @@ internal class VerificationControllerTest {
         "01.08.1989",
         "Innopolis",
         "Saint-Petersburg"
-
-        // FIXME: implement test case or get rid
     )
 
     val testId = "test_id"
@@ -48,5 +49,19 @@ internal class VerificationControllerTest {
         .expectStatus().isOk
         // ATTENTION: use KotlinBodySpec from Kotlin, otherwise be ready for NPE from Java code <3
         .expectBody<String>().isEqualTo(testId)
+  }
+
+  @Test
+  fun `check status for existing id`() {
+    val fakeId = "123"
+
+    Mockito.`when`(verificationStatusUseCase.checkVerificationStatus(fakeId))
+        .thenReturn(Mono.just(VerificationProcess.VerificationStatus.IN_PROGRESS.toString()))
+
+    webClient.get()
+        .uri("/status/$fakeId")
+        .exchange()
+        .expectStatus().isOk
+        .expectBody<String>().isEqualTo("IN_PROGRESS")
   }
 }
