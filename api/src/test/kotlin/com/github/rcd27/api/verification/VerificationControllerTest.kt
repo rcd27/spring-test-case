@@ -10,6 +10,7 @@ import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
 import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.http.MediaType
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import reactor.core.publisher.Mono
@@ -36,14 +37,15 @@ internal class VerificationControllerTest {
 
     val testId = "test_id"
 
-    Mockito.`when`(idGenerationUseCase.getUniqueId(request))
+    Mockito.`when`(idGenerationUseCase.getUniqueId())
         .thenReturn(Mono.just(testId))
 
-    Mockito.`when`(verificationUseCase.verify(testId, request))
+    Mockito.`when`(verificationUseCase.verify(testId, Mono.just(request)))
         .thenReturn(Mono.just(testId))
 
     webClient.post()
         .uri("/verify")
+        .contentType(MediaType.APPLICATION_JSON)
         .body(Mono.just(request), VerificationRequest::class.java)
         .exchange()
         .expectStatus().isOk

@@ -15,9 +15,10 @@ class VerificationController(
 ) {
 
   @PostMapping("/verify")
-  fun verify(@RequestBody input: VerificationRequest): Mono<String> =
-      idGenerationUseCase.getUniqueId(input)
-          .flatMap { uniqueId -> verificationUseCase.verify(uniqueId, input) }
+  fun verify(@RequestBody input: Mono<VerificationRequest>): Mono<String> =
+      idGenerationUseCase.getUniqueId()
+          .flatMap {
+            uniqueId -> verificationUseCase.verify(uniqueId, input) }
           .map { it.toString() }
 
   @GetMapping("/status/{id}")
