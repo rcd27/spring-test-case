@@ -24,6 +24,24 @@ class VerificationHandler(
             .flatMap { ServerResponse.ok().bodyValue(it) }
       }
 
-  fun getStatus(request: ServerRequest): Mono<ServerResponse> = ServerResponse.ok().build()
-
+  @Suppress("ReactiveStreamsUnusedPublisher")
+  fun getStatus(request: ServerRequest): Mono<ServerResponse> {
+    return try {
+      val id = request.pathVariable("id")
+      verificationStatusUseCase
+          .checkVerificationStatus(id)
+          .flatMap {
+            ServerResponse.ok().bodyValue(it)
+          }
+          .onErrorResume {
+            when (it) {
+              is IllegalArgumentException -> ServerResponse.badRequest().bodyValue(it.message ?: "")
+              else -> ServerResponse.badRequest().build()
+            }
+          }
+    } catch (e: IllegalArgumentException) {
+      // TODO: describe what went wrong, so user can handle
+      ServerResponse.badRequest().build()
+    }
+  }
 }

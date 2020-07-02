@@ -13,16 +13,16 @@ import reactor.test.StepVerifier
 @DataMongoTest
 class VerificationProcessTest {
 
-  @Autowired
-  lateinit var reactiveMongoTemplate: ReactiveMongoTemplate
+    @Autowired
+    lateinit var reactiveMongoTemplate: ReactiveMongoTemplate
 
-  @Test
-  fun `persist test`() {
-    val verificationProcess = VerificationProcess("any_uuid", VerificationProcess.VerificationStatus.IN_PROGRESS)
-    val savePublisher: Mono<VerificationProcess> = reactiveMongoTemplate.save(verificationProcess)
+    @Test
+    fun `persist test`() {
+        val verificationProcess = VerificationProcess("any_uuid", VerificationProcess.VerificationStatus.IN_PROGRESS)
+        val savePublisher: Mono<VerificationProcess> = reactiveMongoTemplate.save(verificationProcess)
 
-    StepVerifier.create(savePublisher)
-      .expectNextMatches { it.id.isNotEmpty() && it.status == VerificationProcess.VerificationStatus.IN_PROGRESS }
-      .verifyComplete()
-  }
+        StepVerifier.create(savePublisher)
+            .expectNextMatches { it.id.isNotEmpty() && it.status == VerificationProcess.VerificationStatus.IN_PROGRESS }
+            .verifyComplete()
+    }
 }
