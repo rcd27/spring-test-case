@@ -1,22 +1,16 @@
 package com.github.rcd27.api
 
-import com.github.rcd27.api.idgeneration.data.IdGenerationRepository
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
-import reactor.core.publisher.Mono
+import org.springframework.web.reactive.function.client.WebClient
 
 @SpringBootApplication
 open class ApiApplication {
 
+    // FIXME: should it be here or in @Configuration?
     @Bean
-    open fun provideIdGenerationRepository(): IdGenerationRepository = object : IdGenerationRepository {
-        override fun generateUniqueId(): Mono<String> {
-            // TODO go to generateId url of IdGenerator and get uniqueID
-//      UUID.fromString("take it from JSON")
-            return Mono.just("hardcoded_unique_id")
-        }
-    }
+    open fun provideWebClient(): WebClient = WebClient.create()
 
 }
 
