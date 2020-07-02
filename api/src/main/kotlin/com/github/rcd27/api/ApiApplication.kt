@@ -9,8 +9,9 @@ import org.springframework.web.reactive.function.client.WebClient
 open class ApiApplication {
 
     // FIXME: should it be here or in @Configuration?
+    // we can do bunch of stuff to builder in order to add some extra functionality to `WebClient`
     @Bean
-    open fun provideWebClient(): WebClient = WebClient.create()
+    open fun provideWebClient(builder: WebClient.Builder): WebClient = builder.build()
 
 }
 
