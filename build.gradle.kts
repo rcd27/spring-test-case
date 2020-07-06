@@ -39,6 +39,8 @@ subprojects {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.0.2.RELEASE")
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
       exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
@@ -47,6 +49,7 @@ subprojects {
     testImplementation("org.springframework.amqp:spring-rabbit-test")
     testImplementation("io.mockk:mockk:1.10.0")
     testImplementation("com.google.truth:truth:1.0.1")
+    testImplementation("com.ninja-squad:springmockk:2.0.0")
   }
 }
 
