@@ -1,0 +1,19 @@
+version: "2"
+services:
+  api:
+    restart: on-failure
+    network_mode: host
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  idgenerator:
+    restart: on-failure
+    network_mode: host
+    build:
+      context: ./idgenerator
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
