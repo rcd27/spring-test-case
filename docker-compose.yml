@@ -1,8 +1,7 @@
-version: "2"
+version: "3.4"
 services:
   api:
     restart: on-failure
-    network_mode: host
     build:
       context: ./api
       dockerfile: Dockerfile
@@ -11,7 +10,6 @@ services:
 
   idgenerator:
     restart: on-failure
-    network_mode: host
     build:
       context: ./idgenerator
       dockerfile: Dockerfile
