@@ -4,5 +4,5 @@ EXPOSE 8080
 WORKDIR /api/
 COPY build/libs/api-0.0.1-SNAPSHOT.jar api.jar
 
-ENTRYPOINT ["java","-jar","api-service-1.jar"]
+ENTRYPOINT ["java","-jar","api.jar"]
 
