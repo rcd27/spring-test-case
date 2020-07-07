@@ -4,5 +4,5 @@ EXPOSE 8081
 WORKDIR /idgenerator/
 COPY build/libs/idgenerator-0.0.1-SNAPSHOT.jar idgenerator.jar
 
-ENTRYPOINT ["java","-jar","api-service-1.jar"]
+ENTRYPOINT ["java","-jar","idgenerator.jar"]
 
