@@ -5,15 +5,10 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 
-// TODO: this dancing around interfaces can be skipped with use of MockK and ninja stuff
-interface IdGenerationRepository {
-    fun generateUniqueId(): Mono<String>
-}
-
 @Component
-class IdGenerationRepositoryImpl(@Autowired private val webClient: WebClient) : IdGenerationRepository {
+class IdGenerationRepository(@Autowired private val webClient: WebClient) {
 
-    override fun generateUniqueId(): Mono<String> =
+    fun generateUniqueId(): Mono<String> =
         webClient.get()
             .uri("http://idgenerator:8081/api/v1/id/generate")
             .retrieve()

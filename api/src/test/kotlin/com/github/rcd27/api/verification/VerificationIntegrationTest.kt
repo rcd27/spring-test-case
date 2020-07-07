@@ -3,25 +3,25 @@ package com.github.rcd27.api.verification
 import com.github.rcd27.api.entities.dto.VerificationRequest
 import com.github.rcd27.api.idgeneration.data.IdGenerationRepository
 import com.google.common.truth.Truth
+import com.ninjasquad.springmockk.SpykBean
+import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.Mockito
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class VerificationIntegrationTest(@Autowired private val webClient: WebTestClient) {
 
-    @MockBean
+    @SpykBean
     lateinit var idGenerationRepository: IdGenerationRepository
 
+    @Suppress("ReactiveStreamsUnusedPublisher")
     @BeforeEach
     fun setUp() {
-        Mockito.`when`(idGenerationRepository.generateUniqueId())
-            .thenReturn(Mono.just("Very unique shit"))
+        every { idGenerationRepository.generateUniqueId() } returns Mono.just("very-unique-shit")
     }
 
     private val validRequest = VerificationRequest(
