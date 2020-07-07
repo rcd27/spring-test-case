@@ -11,10 +11,7 @@ interface IdGenerationRepository {
 }
 
 @Component
-class IdGenerationRepositoryImpl : IdGenerationRepository {
-
-    @Autowired
-    lateinit var webClient: WebClient
+class IdGenerationRepositoryImpl(@Autowired private val webClient: WebClient) : IdGenerationRepository {
 
     override fun generateUniqueId(): Mono<String> =
         webClient.get()

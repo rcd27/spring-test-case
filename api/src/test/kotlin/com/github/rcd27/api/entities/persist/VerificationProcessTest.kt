@@ -11,10 +11,7 @@ import reactor.test.StepVerifier
 
 @RunWith(SpringRunner::class)
 @DataMongoTest
-class VerificationProcessTest {
-
-    @Autowired
-    lateinit var reactiveMongoTemplate: ReactiveMongoTemplate
+class VerificationProcessTest(@Autowired private val reactiveMongoTemplate: ReactiveMongoTemplate) {
 
     @Test
     fun `persist test`() {

@@ -13,7 +13,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class VerificationIntegrationTest(@Autowired val webClient: WebTestClient) {
+class VerificationIntegrationTest(@Autowired private val webClient: WebTestClient) {
 
     @MockBean
     lateinit var idGenerationRepository: IdGenerationRepository

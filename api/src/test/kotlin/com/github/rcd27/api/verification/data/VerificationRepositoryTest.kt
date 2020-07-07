@@ -12,10 +12,7 @@ import reactor.test.StepVerifier
 
 @RunWith(SpringRunner::class)
 @DataMongoTest
-class VerificationRepositoryTest {
-
-    @Autowired
-    lateinit var verificationProcessRepository: VerificationProcessRepository
+class VerificationRepositoryTest(@Autowired private val verificationProcessRepository: VerificationProcessRepository) {
 
     /**
      *  We don't have to test repository if there are no custom queries.
