@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+  api:
+    restart: on-failure
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  idgenerator:
+    restart: on-failure
+    build:
+      context: ./idgenerator
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"

@@ -18,7 +18,7 @@ class IdGenerationRepositoryImpl : IdGenerationRepository {
 
     override fun generateUniqueId(): Mono<String> =
         webClient.get()
-            .uri("http://localhost:8080/api/v1/id/generate")
+            .uri("http://idgenerator:8081/api/v1/id/generate")
             .retrieve()
             .bodyToMono(String::class.java)
 }
