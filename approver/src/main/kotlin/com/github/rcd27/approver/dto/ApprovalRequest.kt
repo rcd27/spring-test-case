@@ -1,7 +1,8 @@
-package com.github.rcd27.api.entities.dto
+package com.github.rcd27.approver.dto
 
 // FIXME: this should be in `common` module. Will be fixed in `common-module` branch
-data class VerificationRequest(
+data class ApprovalRequest(
+        val verificationId: String,
         val firstName: String,
         val lastName: String,
         val email: String,

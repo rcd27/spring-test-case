@@ -12,7 +12,7 @@ open class ApproverRoutes(
     @Bean
     open fun router() = org.springframework.web.reactive.function.server.router {
         (accept(MediaType.APPLICATION_JSON) and "/api/v1/").nest {
-            GET("/approve", approverHandler::approve)
+            POST("/approve", approverHandler::approve)
         }
     }
 }
