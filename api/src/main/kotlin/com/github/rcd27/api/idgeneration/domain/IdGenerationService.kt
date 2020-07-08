@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono
 @Service
 class IdGenerationService(private val repository: IdGenerationRepository) {
     fun getUniqueId(): Mono<String> =
-        repository.generateUniqueId()
+            repository.generateUniqueId()
 }

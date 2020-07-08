@@ -5,10 +5,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 import org.springframework.web.reactive.function.server.router
 
-
 @Configuration
 open class IdGeneratorRoutes(
-    private val idGeneratorHandler: IdGeneratorHandler
+        private val idGeneratorHandler: IdGeneratorHandler
 ) {
 
     @Bean

@@ -10,11 +10,11 @@ import reactor.core.publisher.Mono
 class VerificationService(private val processRepository: VerificationProcessRepository) {
 
     fun verify(uniqueId: String, input: VerificationRequest): Mono<String> =
-        processRepository.save(
-            VerificationProcess(
-                uniqueId,
-                VerificationProcess.VerificationStatus.IN_PROGRESS
+            processRepository.save(
+                    VerificationProcess(
+                            uniqueId,
+                            VerificationProcess.VerificationStatus.IN_PROGRESS
+                    )
             )
-        )
-            .map { uniqueId }
+                    .map { uniqueId }
 }

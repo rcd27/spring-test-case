@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono
 @Component
 class ApproverHandler {
 
-  fun approve(request: ServerRequest): Mono<ServerResponse> {
-    TODO("")
-  }
+    fun approve(request: ServerRequest): Mono<ServerResponse> {
+        TODO("")
+    }
 }

@@ -9,11 +9,11 @@ import reactor.kotlin.core.publisher.switchIfEmpty
 class VerificationStatusService(private val verificationProcessRepository: VerificationProcessRepository) {
 
     fun checkVerificationStatus(id: String): Mono<String> =
-        verificationProcessRepository.findById(id)
-            .map { it.status.toString() }
-            .switchIfEmpty {
-                // TODO: describe domain-specific errors with sealed classes
-                Mono.error(IllegalArgumentException("No process for such id: $id"))
-            }
+            verificationProcessRepository.findById(id)
+                    .map { it.status.toString() }
+                    .switchIfEmpty {
+                        // TODO: describe domain-specific errors with sealed classes
+                        Mono.error(IllegalArgumentException("No process for such id: $id"))
+                    }
 
 }
