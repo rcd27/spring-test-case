@@ -15,63 +15,63 @@ import reactor.core.publisher.Mono
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class VerificationIntegrationTest(@Autowired private val webClient: WebTestClient) {
 
-    @SpykBean
-    lateinit var idGenerationRepository: IdGenerationRepository
+  @SpykBean
+  lateinit var idGenerationRepository: IdGenerationRepository
 
-    @Suppress("ReactiveStreamsUnusedPublisher")
-    @BeforeEach
-    fun setUp() {
-        every { idGenerationRepository.generateUniqueId() } returns Mono.just("very-unique-shit")
-    }
+  @Suppress("ReactiveStreamsUnusedPublisher")
+  @BeforeEach
+  fun setUp() {
+    every { idGenerationRepository.generateUniqueId() } returns Mono.just("very-unique-shit")
+  }
 
-    private val validRequest = VerificationRequest(
-        "Stanislav",
-        "Zemlyakov",
-        "redtom@yandex.ru",
-        "01.08.1989",
-        "Innopolis",
-        "Saint-Petersburg"
-    )
+  private val validRequest = VerificationRequest(
+      "Stanislav",
+      "Zemlyakov",
+      "redtom@yandex.ru",
+      "01.08.1989",
+      "Innopolis",
+      "Saint-Petersburg"
+  )
 
-    @Test
-    fun `should send for verification and return its id`() {
-        // TODO: either check that verification is sent, or rename the test case
+  @Test
+  fun `should send for verification and return its id`() {
+    // TODO: either check that verification is sent, or rename the test case
 
-        val idGivenForVerificationRequest = webClient.post()
-            .uri("/api/v1/verification/verify")
-            .body(Mono.just(validRequest), VerificationRequest::class.java)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult().responseBody
+    val idGivenForVerificationRequest = webClient.post()
+        .uri("/api/v1/verification/verify")
+        .body(Mono.just(validRequest), VerificationRequest::class.java)
+        .exchange()
+        .expectStatus().isOk
+        .expectBody(String::class.java)
+        .returnResult().responseBody
 
-        Truth.assertThat(idGivenForVerificationRequest).isNotEmpty()
-    }
+    Truth.assertThat(idGivenForVerificationRequest).isNotEmpty()
+  }
 
-    @Test
-    fun `should return bad request for verification process which doesn't exist`() {
-        webClient.get()
-            .uri("/api/v1/verification/status/123")
-            .exchange()
-            .expectStatus().isBadRequest
-    }
+  @Test
+  fun `should return bad request for verification process which doesn't exist`() {
+    webClient.get()
+        .uri("/api/v1/verification/status/123")
+        .exchange()
+        .expectStatus().isBadRequest
+  }
 
-    @Test
-    fun `should return status for previously created verification process`() {
-        val idGivenForVerificationRequest = webClient.post()
-            .uri("/api/v1/verification/verify")
-            .body(Mono.just(validRequest), VerificationRequest::class.java)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult().responseBody
+  @Test
+  fun `should return status for previously created verification process`() {
+    val idGivenForVerificationRequest = webClient.post()
+        .uri("/api/v1/verification/verify")
+        .body(Mono.just(validRequest), VerificationRequest::class.java)
+        .exchange()
+        .expectStatus().isOk
+        .expectBody(String::class.java)
+        .returnResult().responseBody
 
-        webClient.get()
-            .uri("/api/v1/verification/status/$idGivenForVerificationRequest")
-            .exchange()
-            .expectStatus().isOk
-    }
+    webClient.get()
+        .uri("/api/v1/verification/status/$idGivenForVerificationRequest")
+        .exchange()
+        .expectStatus().isOk
+  }
 
-    // TODO: test when not passing {id} for verificationStatus
-    // TODO: test when other unhandled exception is thrown (if it canbe thrown in that chain of a VerificationHandler)
+  // TODO: test when not passing {id} for verificationStatus
+  // TODO: test when other unhandled exception is thrown (if it canbe thrown in that chain of a VerificationHandler)
 }
