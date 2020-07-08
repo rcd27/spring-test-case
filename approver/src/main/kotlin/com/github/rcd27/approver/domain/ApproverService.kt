@@ -1,9 +1,7 @@
 package com.github.rcd27.approver.domain
 
-import com.github.rcd27.approver.dto.Approval
-import com.github.rcd27.approver.dto.Approved
-import com.github.rcd27.approver.dto.Denied
 import com.github.rcd27.approver.dto.ApprovalRequest
+import com.github.rcd27.approver.dto.ApprovalResult
 import org.springframework.amqp.rabbit.annotation.EnableRabbit
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
@@ -12,22 +10,20 @@ import reactor.core.publisher.Mono
 @EnableRabbit
 class ApproverService(private val requestValidator: RequestValidator) {
 
-    fun sendForApproval(input: ApprovalRequest): Mono<Approval> {
+    fun sendForApproval(input: ApprovalRequest): Mono<ApprovalResult> {
         return requestValidator.validate(input)
             .map { validationResult: ValidationResult ->
                 when (validationResult) {
                     is Valid -> {
                         // TODO: rabbit send for mailer
-                        Approval(
-                            "",
+                        ApprovalResult(
                             input,
                             "Approved"
                         )
                     }
 
                     is Invalid ->
-                        Approval(
-                            "",
+                        ApprovalResult(
                             input,
                             "Denied"
                         )

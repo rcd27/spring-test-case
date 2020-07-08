@@ -40,7 +40,7 @@ class ApproverIntegrationTest(@Autowired private val webClient: WebTestClient) {
             .body(Mono.just(validApprovalRequest), ApprovalRequest::class.java)
             .exchange()
             .expectStatus().isOk
-            .expectBody().jsonPath("\$.result").isEqualTo("Approved")
+            .expectBody().jsonPath("\$.status").isEqualTo("Approved")
 
         // TODO: test RabbitMQ: assert it has sent a query
     }
@@ -55,7 +55,7 @@ class ApproverIntegrationTest(@Autowired private val webClient: WebTestClient) {
             .body(Mono.just(validApprovalRequest), ApprovalRequest::class.java)
             .exchange()
             .expectStatus().isOk
-            .expectBody().jsonPath("\$.result").isEqualTo("Denied")
+            .expectBody().jsonPath("\$.status").isEqualTo("Denied")
 
         // TODO: test RabbitMQ: assert it has NOT sent a query
     }
