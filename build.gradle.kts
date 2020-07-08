@@ -48,6 +48,7 @@ subprojects {
         }
         testImplementation("io.projectreactor:reactor-test:3.3.7.RELEASE")
         testImplementation("org.springframework.amqp:spring-rabbit-test")
+        testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock:2.2.3.RELEASE")
 
         testImplementation("io.mockk:mockk:1.10.0")
         testImplementation("com.ninja-squad:springmockk:2.0.0")
