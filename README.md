@@ -1,10 +1,8 @@
-```
 Сборка проекта:
-./gradlew cleanRebuild
+`./gradlew cleanRebuild`
 
 Запуск контейнеров:
-docker-compose up -d
+`docker-compose up -d`
 
 Остановить все контейнеры и удалить `docker images`:
-./dockerRemoveAll.bash
-```
+`./dockerRemoveAll.bash`
