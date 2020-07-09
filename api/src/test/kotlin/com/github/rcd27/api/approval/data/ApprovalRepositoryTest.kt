@@ -41,7 +41,7 @@ class ApprovalRepositoryTest(@Autowired private val approvalRepository: Approval
                                     "habitatCity": "Saint-Petersburg",
                                     "registrationCity": "s"
                                 },
-                                "result": "Approved"
+                                "status": "Approved"
                             }
                         """.trimIndent()
                         )

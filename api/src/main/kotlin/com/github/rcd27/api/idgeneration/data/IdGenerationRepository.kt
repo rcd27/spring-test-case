@@ -4,8 +4,6 @@ import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 
-// TODO: see https://cloud.spring.io/spring-cloud-contract/reference/html/project-features.html#features-wiremock
-// https://github.com/spring-cloud/spring-cloud-contract/tree/master/samples/standalone/contracts
 @Component
 class IdGenerationRepository(private val webClient: WebClient) {
 

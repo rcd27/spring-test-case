@@ -3,6 +3,7 @@ package com.github.rcd27.api.verification
 import com.github.rcd27.api.approval.data.ApprovalRepository
 import com.github.rcd27.api.approval.data.ApprovalRequest
 import com.github.rcd27.api.approval.data.ApprovalResponse
+import com.github.rcd27.api.approval.data.ApprovalStatus
 import com.github.rcd27.api.entities.dto.VerificationRequest
 import com.github.rcd27.api.idgeneration.data.IdGenerationRepository
 import com.google.common.truth.Truth
@@ -40,7 +41,7 @@ class VerificationIntegrationTest(@Autowired private val webClient: WebTestClien
         every { approvalRepository.sendForApproval(any()) } returns Mono.just(
             ApprovalResponse(
                 request = ApprovalRequest.fromVerificationRequest("very-unique-shit", validRequest),
-                result = "Applied"
+                status = ApprovalStatus.Approved
             )
         )
     }
