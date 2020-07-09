@@ -1,15 +1,8 @@
-```
-./gradlew clean
-./gradlew api:assemble
-./gradlew idgenerator:assemple
+Сборка проекта:
+`./gradlew cleanRebuild`
 
-По-сложному:
-docker build --tag spring-test-case-api ./api
-docker run -p 8080:8080 --name api spring-test-case-api
+Запуск контейнеров:
+`docker-compose up -d`
 
-docker build --tag spring-test-case-idgenerator ./idgenerator
-docker run -p 8081:8081 --name idgenerator spring-test-case-idgenerator
-
-По-простому:
-docker-compose up -d
-```
+Остановить все контейнеры и удалить `docker images`:
+`./dockerRemoveAll.bash`

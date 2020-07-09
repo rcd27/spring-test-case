@@ -23,6 +23,13 @@ plugins {
     kotlin("plugin.spring") version "1.3.72"
 }
 
+tasks.register("cleanRebuild") {
+    exec {
+        executable("./gradlew")
+        args("clean", "api:assemble", "idgenerator:assemble", "approver:assemble")
+    }
+}
+
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "kotlinx-serialization")
