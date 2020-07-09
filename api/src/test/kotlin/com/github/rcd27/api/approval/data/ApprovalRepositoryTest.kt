@@ -8,7 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import reactor.test.StepVerifier
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    properties = ["app.approverUrl=http://localhost:\${wiremock.server.port}"],
+    webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureWireMock(port = 0)
 class ApprovalRepositoryTest(@Autowired private val approvalRepository: ApprovalRepository) {
 
