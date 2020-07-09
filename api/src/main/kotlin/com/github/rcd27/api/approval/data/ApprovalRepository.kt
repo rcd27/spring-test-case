@@ -12,12 +12,12 @@ class ApprovalRepository(
     @Value("\${api.approverUrl:http://approver:8082}") private val approverUrl: String
 ) {
 
-    fun sendForApproval(approvalRequest: ApprovalRequest): Mono<ApprovalResult> =
+    fun sendForApproval(approvalRequest: ApprovalRequest): Mono<ApprovalResponse> =
         webClient.post()
             .uri("$approverUrl/api/v1/approve")
             .body(Mono.just(approvalRequest), ApprovalRequest::class.java)
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
-            .bodyToMono(ApprovalResult::class.java)
+            .bodyToMono(ApprovalResponse::class.java)
 
 }

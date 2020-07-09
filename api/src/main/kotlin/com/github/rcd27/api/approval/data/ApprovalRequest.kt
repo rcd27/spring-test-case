@@ -1,16 +1,15 @@
 package com.github.rcd27.api.approval.data
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.rcd27.api.entities.dto.VerificationRequest
 
 data class ApprovalRequest(
-    @JsonProperty("verificationId") val verificationId: String,
-    @JsonProperty("firstName") val firstName: String,
-    @JsonProperty("lastName") val lastName: String,
-    @JsonProperty("email") val email: String,
-    @JsonProperty("dateOfBirth") val dateOfBirth: String,
-    @JsonProperty("habitatCity") val habitatCity: String?,
-    @JsonProperty("registrationCity") val registrationCity: String?
+    val verificationId: String,
+    val firstName: String,
+    val lastName: String,
+    val email: String,
+    val dateOfBirth: String,
+    val habitatCity: String?,
+    val registrationCity: String?
 ) {
     companion object {
         @JvmStatic
