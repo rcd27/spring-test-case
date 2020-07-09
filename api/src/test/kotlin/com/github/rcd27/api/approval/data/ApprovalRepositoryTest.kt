@@ -9,7 +9,7 @@ import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock
 import reactor.test.StepVerifier
 
 @SpringBootTest(
-    properties = ["app.approverUrl=http://localhost:\${wiremock.server.port}"],
+    properties = ["api.approverUrl=http://localhost:\${wiremock.server.port}"],
     webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @AutoConfigureWireMock(port = 0)
 class ApprovalRepositoryTest(@Autowired private val approvalRepository: ApprovalRepository) {
@@ -33,7 +33,7 @@ class ApprovalRepositoryTest(@Autowired private val approvalRepository: Approval
                             """
                             {
                                 "request": {
-                                    "verificationId": "some-inuque-shit",
+                                    "verificationId": "some-unique-shit",
                                     "firstName": "Stanislav",
                                     "lastName": "Zemlyakov",
                                     "email": "redtom@yandex.ru",
@@ -50,7 +50,7 @@ class ApprovalRepositoryTest(@Autowired private val approvalRepository: Approval
 
         val sendForApproval = approvalRepository.sendForApproval(
             ApprovalRequest.fromVerificationRequest(
-                "some-inuque-shit",
+                "some-unique-shit",
                 validRequest
             )
         )

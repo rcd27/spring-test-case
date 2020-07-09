@@ -7,10 +7,10 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 
 @Component
-class ApprovalRepository(private val webClient: WebClient) {
-
-    @Value("\${app.approverUrl:http://approver:8082}")
-    lateinit var approverUrl: String
+class ApprovalRepository(
+    private val webClient: WebClient,
+    @Value("\${api.approverUrl:http://approver:8082}") private val approverUrl: String
+) {
 
     fun sendForApproval(approvalRequest: ApprovalRequest): Mono<ApprovalResult> =
         webClient.post()
