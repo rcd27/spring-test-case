@@ -3,7 +3,6 @@ package com.github.rcd27.api.approval.data
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.rcd27.api.entities.dto.VerificationRequest
 
-// FIXME: this should be in `common` module. Will be fixed in `common-module` branch
 data class ApprovalRequest(
     @JsonProperty("verificationId") val verificationId: String,
     @JsonProperty("firstName") val firstName: String,
