@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.MediaType
 
 @Configuration
-open class ApproverRoutes(
-        private val approverHandler: ApproverHandler
-) {
+open class ApproverRoutes(private val approverHandler: ApproverHandler) {
 
     @Bean
     open fun router() = org.springframework.web.reactive.function.server.router {
