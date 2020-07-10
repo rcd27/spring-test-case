@@ -1,3 +1,3 @@
-docker stop springtestcase_api_1 springtestcase_approver_1 springtestcase_idgenerator_1 springtestcase_mailer_1 springtestcase_rabbit_1
-docker rm springtestcase_api_1 springtestcase_approver_1 springtestcase_idgenerator_1 springtestcase_mailer_1 springtestcase_rabbit_1
+# shellcheck disable=SC2046
+docker rm -f $(docker ps -qa)
 docker rmi springtestcase_api:latest springtestcase_approver:latest springtestcase_idgenerator:latest springtestcase_mailer:latest
