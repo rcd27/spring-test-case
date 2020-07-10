@@ -26,7 +26,7 @@ plugins {
 tasks.register("cleanRebuild") {
     exec {
         executable("./gradlew")
-        args("clean", "api:assemble", "idgenerator:assemble", "approver:assemble")
+        args("clean", "api:assemble", "idgenerator:assemble", "approver:assemble", "mailer:assemble")
     }
 }
 
