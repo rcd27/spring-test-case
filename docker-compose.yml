@@ -18,8 +18,29 @@ services:
 
   approver:
     restart: on-failure
+    depends_on:
+      - rabbit
     build:
       context: ./approver
       dockerfile: Dockerfile
     ports:
       - "8082:8082"
+
+  mailer:
+    restart: on-failure
+    depends_on:
+      - rabbit
+    build:
+      context: ./mailer
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+
+  rabbit:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"

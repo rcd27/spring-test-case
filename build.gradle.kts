@@ -26,7 +26,7 @@ plugins {
 tasks.register("cleanRebuild") {
     exec {
         executable("./gradlew")
-        args("clean", "api:assemble", "idgenerator:assemble", "approver:assemble")
+        args("clean", "api:assemble", "idgenerator:assemble", "approver:assemble", "mailer:assemble")
     }
 }
 
@@ -37,9 +37,6 @@ subprojects {
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-amqp")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
-
-        implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
-        implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 
         implementation("io.arrow-kt:arrow-core:0.10.4")
         implementation("io.arrow-kt:arrow-syntax:0.10.4")
