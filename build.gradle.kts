@@ -35,8 +35,8 @@ subprojects {
     apply(plugin = "kotlinx-serialization")
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-amqp")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
+        implementation("org.springframework.kafka:spring-kafka:2.5.3.RELEASE")
 
         implementation("io.arrow-kt:arrow-core:0.10.4")
         implementation("io.arrow-kt:arrow-syntax:0.10.4")
@@ -53,8 +53,9 @@ subprojects {
             exclude(module = "mockito-core")
         }
         testImplementation("io.projectreactor:reactor-test:3.3.7.RELEASE")
-        testImplementation("org.springframework.amqp:spring-rabbit-test")
         testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock:2.2.3.RELEASE")
+
+        testImplementation("org.springframework.kafka:spring-kafka-test:2.5.3.RELEASE")
 
         testImplementation("io.mockk:mockk:1.10.0")
         testImplementation("com.ninja-squad:springmockk:2.0.0")

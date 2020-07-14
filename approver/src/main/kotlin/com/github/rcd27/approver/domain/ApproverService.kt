@@ -5,19 +5,15 @@ import com.github.rcd27.approver.dto.ApprovalRequest
 import com.github.rcd27.approver.dto.ApprovalResponse
 import com.github.rcd27.approver.dto.ApprovalStatus
 import com.github.rcd27.approver.dto.MailerRequest
-import org.springframework.amqp.core.MessageBuilder
-import org.springframework.amqp.core.MessagePropertiesBuilder
-import org.springframework.amqp.rabbit.annotation.EnableRabbit
-import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 
 @Service
-@EnableRabbit
+@Suppress("SpringJavaInjectionPointsAutowiringInspection")
 class ApproverService(
         private val requestValidator: RequestValidator,
-        @Autowired private val rabbitTemplate: RabbitTemplate
+        private val kafkaTemplate: KafkaTemplate<String, String>
 ) {
 
     fun sendForApproval(input: ApprovalRequest): Mono<ApprovalResponse> {
@@ -27,15 +23,10 @@ class ApproverService(
                     when (validationResult) {
                         is Valid -> {
 
-                            val json = jacksonObjectMapper().writeValueAsBytes(
+                            val json: String = jacksonObjectMapper().writeValueAsString(
                                     MailerRequest(input.verificationId, "Approved")
                             )
-                            val jsonMessage = MessageBuilder.withBody(json)
-                                    .andProperties(
-                                            MessagePropertiesBuilder.newInstance().setContentType("application/json")
-                                                    .build()
-                                    ).build()
-                            rabbitTemplate.send("mailerQueue", jsonMessage)
+                            kafkaTemplate.send("mailerTopic", json)
 
                             ApprovalResponse(
                                     input,

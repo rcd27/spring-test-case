@@ -4,9 +4,8 @@ import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.github.rcd27.mailer.MailerConfiguration.Companion.MAILER_QUEUE
 import com.github.rcd27.mailer.dto.MailerRequest
-import org.springframework.amqp.rabbit.annotation.RabbitListener
+import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
 import reactor.core.publisher.EmitterProcessor
 
@@ -20,7 +19,7 @@ import reactor.core.publisher.EmitterProcessor
 @Component
 class MailerHandler(private val messageListener: EmitterProcessor<MailerRequest>) {
 
-    @RabbitListener(queues = [MAILER_QUEUE])
+    @KafkaListener(topics = ["mailerTopic"])
     fun listen(input: String) {
         val objectMapper = jacksonObjectMapper()
         try {
