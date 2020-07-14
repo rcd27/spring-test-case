@@ -22,7 +22,7 @@ class ApproverIntegrationTest(@Autowired private val webClient: WebTestClient) {
     @Rule
     @JvmField
     val rule: EmbeddedKafkaRule = EmbeddedKafkaRule(1)
-            .kafkaPorts(9092)
+            .kafkaPorts(1092)
 
     @SpykBean
     lateinit var validator: RequestValidator
