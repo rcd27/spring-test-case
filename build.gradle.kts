@@ -38,10 +38,6 @@ subprojects {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("org.springframework.kafka:spring-kafka:2.5.3.RELEASE")
 
-        // TODO: use or remove from dependencies
-        implementation("io.arrow-kt:arrow-core:0.10.4")
-        implementation("io.arrow-kt:arrow-syntax:0.10.4")
-
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions:1.0.2.RELEASE")
