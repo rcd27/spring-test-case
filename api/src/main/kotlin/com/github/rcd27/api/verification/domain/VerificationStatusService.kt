@@ -12,8 +12,8 @@ class VerificationStatusService(private val verificationProcessRepository: Verif
             verificationProcessRepository.findById(id)
                     .map { it.status.toString() }
                     .switchIfEmpty {
-                        // TODO: describe domain-specific errors with sealed classes
-                        Mono.error(IllegalArgumentException("No process for such id: $id"))
+                        Mono.error(NoProcessForIdException(id))
                     }
-
 }
+
+class NoProcessForIdException(val id: String) : Throwable("No process for such id: $id")
