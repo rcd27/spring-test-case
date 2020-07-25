@@ -24,7 +24,10 @@ class VerificationHandler(
                 idGenerationService.getUniqueId()
                         .flatMap { uniqueId -> verificationService.verify(uniqueId, input) }
                         .flatMap { (id, request) -> approvalService.sendForApproval(id, request) }
-                        .flatMap { approvalResult -> ServerResponse.ok().bodyValue(approvalResult.request.verificationId) }
+                        .flatMap { verificationStatusService.saveApprovalResult(it) }
+                        .flatMap { verificationProcess ->
+                            ServerResponse.ok().bodyValue(verificationProcess.id)
+                        }
             }
 
     @Suppress("ReactiveStreamsUnusedPublisher")
