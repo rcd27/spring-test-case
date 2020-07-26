@@ -6,12 +6,12 @@ Contract.make {
     description("Should return generated id")
 
     request {
-        url("/api/v1/id/generate")
+        url("http://localhost:8081/api/v1/id/generate")
         method(GET.methodName)
     }
 
     response {
         status(200)
-        body("some-unique-as-hell-id")
+        body(anyNonBlankString())
     }
 }
