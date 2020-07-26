@@ -12,7 +12,6 @@ buildscript {
 
     dependencies {
         val kotlinVersion = "1.3.72"
-        classpath(kotlin("serialization", version = kotlinVersion))
     }
 }
 
@@ -21,6 +20,16 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
+
+    // Cloud Contract
+    id("groovy")
+    id("org.springframework.cloud.contract") version "2.2.3.RELEASE"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-contract-dependencies:2.2.3.RELEASE")
+    }
 }
 
 tasks.register("cleanRebuild") {
@@ -32,7 +41,10 @@ tasks.register("cleanRebuild") {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "kotlinx-serialization")
+
+    // Cloud Contract
+    apply(plugin = "groovy")
+    apply(plugin = "org.springframework.cloud.contract")
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -60,6 +72,11 @@ subprojects {
         testImplementation("com.ninja-squad:springmockk:2.0.0")
 
         testImplementation("com.google.truth:truth:1.0.1")
+
+        testImplementation("org.codehaus.groovy:groovy-all:3.0.5")
+
+        testImplementation("io.rest-assured:spring-web-test-client:4.3.1")
+        testImplementation("io.rest-assured:rest-assured-common:4.3.1")
     }
 }
 
@@ -68,11 +85,10 @@ allprojects {
         mavenCentral()
         maven {
             url = URI("https://plugins.gradle.org/m2/")
-            url = URI("https://dl.bintray.com/arrow-kt/arrow-kt/")
         }
     }
 
-    java.sourceCompatibility = JavaVersion.VERSION_11
+    java.sourceCompatibility = JavaVersion.VERSION_1_8
 
     tasks.withType<Test> {
         useJUnitPlatform()
@@ -83,5 +99,12 @@ allprojects {
             freeCompilerArgs = listOf("-Xjsr305=strict")
             jvmTarget = "1.8"
         }
+    }
+
+    contracts {
+        setFailOnNoContracts(false)
+
+        setTestMode("WebTestClient")
+        setBaseClassForTests("")
     }
 }
