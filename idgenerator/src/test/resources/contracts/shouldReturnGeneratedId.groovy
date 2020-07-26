@@ -1,7 +1,4 @@
-package contracts
-
 import org.springframework.cloud.contract.spec.Contract
-import org.springframework.http.HttpStatus
 
 import static org.springframework.cloud.contract.spec.internal.HttpMethods.HttpMethod.GET
 
@@ -14,7 +11,7 @@ Contract.make {
     }
 
     response {
-        status(HttpStatus.OK.value())
+        status(200)
         body("some-unique-as-hell-id")
     }
 }
