@@ -21,6 +21,16 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
+
+    // Cloud Contract
+    id("groovy")
+    id("org.springframework.cloud.contract") version "2.2.3.RELEASE"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-contract-dependencies:2.2.3.RELEASE")
+    }
 }
 
 tasks.register("cleanRebuild") {
@@ -32,7 +42,10 @@ tasks.register("cleanRebuild") {
 
 subprojects {
     apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "kotlinx-serialization")
+
+    // Cloud Contract
+    apply(plugin = "groovy")
+    apply(plugin = "org.springframework.cloud.contract")
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -58,6 +71,8 @@ subprojects {
         testImplementation("com.ninja-squad:springmockk:2.0.0")
 
         testImplementation("com.google.truth:truth:1.0.1")
+
+        testImplementation("org.codehaus.groovy:groovy-all:3.0.5")
     }
 }
 
