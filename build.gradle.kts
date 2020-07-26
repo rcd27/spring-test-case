@@ -36,6 +36,8 @@ subprojects {
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-webflux")
+        // TODO: implement restdocs
+        implementation("org.springframework.restdocs:spring-restdocs-webtestclient:2.0.4.RELEASE")
         implementation("org.springframework.kafka:spring-kafka:2.5.3.RELEASE")
 
         implementation("org.jetbrains.kotlin:kotlin-reflect")
