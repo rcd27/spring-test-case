@@ -4,10 +4,9 @@ apply {
 }
 
 dependencies {
-    testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock:2.2.3.RELEASE")
-    testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:2.2.3.RELEASE")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+    implementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 }
-
 
 group = "com.github.rcd27.api"
 version = "0.0.1-SNAPSHOT"

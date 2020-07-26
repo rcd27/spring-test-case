@@ -11,10 +11,7 @@ import reactor.test.StepVerifier
 
 @RunWith(SpringRunner::class)
 @DataMongoTest
-class VerificationProcessTest {
-
-    @Autowired
-    lateinit var reactiveMongoTemplate: ReactiveMongoTemplate
+class VerificationProcessTest(@Autowired private val reactiveMongoTemplate: ReactiveMongoTemplate) {
 
     @Test
     fun `persist test`() {
@@ -22,7 +19,12 @@ class VerificationProcessTest {
         val savePublisher: Mono<VerificationProcess> = reactiveMongoTemplate.save(verificationProcess)
 
         StepVerifier.create(savePublisher)
-            .expectNextMatches { it.id.isNotEmpty() && it.status == VerificationProcess.VerificationStatus.IN_PROGRESS }
-            .verifyComplete()
+                .expectNextMatches { it.id.isNotEmpty() && it.status == VerificationProcess.VerificationStatus.IN_PROGRESS }
+                .verifyComplete()
+
+        val findById = reactiveMongoTemplate.findById("any_uuid", VerificationProcess::class.java)
+        StepVerifier.create(findById)
+                .expectNextCount(1)
+                .verifyComplete()
     }
 }

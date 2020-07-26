@@ -1,24 +1,15 @@
 package com.github.rcd27.api.idgeneration.data
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Mono
 
-// TODO: this dancing around interfaces can be skipped with use of MockK and ninja stuff
-interface IdGenerationRepository {
-    fun generateUniqueId(): Mono<String>
-}
-
 @Component
-class IdGenerationRepositoryImpl : IdGenerationRepository {
+class IdGenerationRepository(private val webClient: WebClient) {
 
-    @Autowired
-    lateinit var webClient: WebClient
-
-    override fun generateUniqueId(): Mono<String> =
-        webClient.get()
-            .uri("http://idgenerator:8081/api/v1/id/generate")
-            .retrieve()
-            .bodyToMono(String::class.java)
+    fun generateUniqueId(): Mono<String> =
+            webClient.get()
+                    .uri("http://idgenerator:8081/api/v1/id/generate")
+                    .retrieve()
+                    .bodyToMono(String::class.java)
 }

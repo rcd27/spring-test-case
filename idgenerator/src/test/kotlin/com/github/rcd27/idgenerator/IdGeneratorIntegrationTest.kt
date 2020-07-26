@@ -13,18 +13,18 @@ class IdGeneratorIntegrationTest(@Autowired val webClient: WebTestClient) {
     fun `should return different id`() {
 
         val firstResponse = webClient.get()
-            .uri("api/v1/id/generate")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult().responseBody
+                .uri("api/v1/id/generate")
+                .exchange()
+                .expectStatus().isOk
+                .expectBody(String::class.java)
+                .returnResult().responseBody
 
         val secondResponse = webClient.get()
-            .uri("api/v1/id/generate")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult().responseBody
+                .uri("api/v1/id/generate")
+                .exchange()
+                .expectStatus().isOk
+                .expectBody(String::class.java)
+                .returnResult().responseBody
 
         Truth.assertThat(firstResponse).doesNotMatch(secondResponse)
     }

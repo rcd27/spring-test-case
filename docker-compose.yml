@@ -15,3 +15,49 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8081:8081"
+
+  approver:
+    restart: on-failure
+    depends_on:
+      - kafka
+    build:
+      context: ./approver
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+
+  mailer:
+    restart: on-failure
+    depends_on:
+      - kafka
+    build:
+      context: ./mailer
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    expose:
+      - "2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "1092:1092"
+    expose:
+      - "1093"
+    environment:
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:1093,OUTSIDE://kafka:1092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:SASL_PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://kafka:1093,OUTSIDE://kafka:1092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_OPTS: "-Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf"
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+    depends_on:
+      - zookeeper
+    volumes:
+      - ./:/etc/kafka

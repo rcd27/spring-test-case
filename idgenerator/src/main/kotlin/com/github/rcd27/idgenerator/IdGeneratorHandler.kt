@@ -12,6 +12,6 @@ import java.util.*
 object IdGeneratorHandler {
 
     fun generateUniqueId(request: ServerRequest): Mono<ServerResponse> =
-        ServerResponse.ok().bodyValue(UUID.randomUUID())
+            ServerResponse.ok().bodyValue(UUID.randomUUID())
 
 }
