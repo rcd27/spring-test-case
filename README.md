@@ -1,11 +1,11 @@
-### Сборка проекта:
+### Build project:
 `./gradlew cleanRebuild`
 
-### Запуск контейнеров:
+### Run docker containers:
 `docker-compose up -d`
 
-### Проверка работы:
-Запрос на регистрацию:
+### Check if it works:
+Registration request:
 `curl --location --request POST 'http://localhost:8080/api/v1/verification/verify' \
  --header 'Content-Type: application/json' \
  --data-raw '{
@@ -16,9 +16,9 @@
  "habitatCity": "Saint-Petersburg",
  "registrationCity":"s"
  }'`
- Результат запроса - `id`.
+ The result should be an - `id`.
 
-### Остановить все контейнеры и удалить `docker images`:
+### Stop docker containers and remove `docker images`:
 `./dockerRemoveAll.bash`
  
 # Описание
