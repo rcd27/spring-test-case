@@ -1,11 +1,11 @@
-### Сборка проекта:
+### Build project:
 `./gradlew cleanRebuild`
 
-### Запуск контейнеров:
+### Run docker containers:
 `docker-compose up -d`
 
-### Проверка работы:
-Запрос на регистрацию:
+### Check if it works:
+Registration request:
 `curl --location --request POST 'http://localhost:8080/api/v1/verification/verify' \
  --header 'Content-Type: application/json' \
  --data-raw '{
@@ -16,16 +16,16 @@
  "habitatCity": "Saint-Petersburg",
  "registrationCity":"s"
  }'`
- Результат запроса - `id`.
+ The result should be an - `id`.
 
-### Остановить все контейнеры и удалить `docker images`:
+### Stop docker containers and remove `docker images`:
 `./dockerRemoveAll.bash`
  
-# Описание
+# About
 
-Проект с микросервисной архитектурой. `api` принимает `http` запросы на регистрацию пользователя. Далее каждому запросу присваивается `UUID` для идентификации запроса между сервисами, а также проверки его статуса - происходит в сервисе `idgenerator`. Затем отправляется на верификацию/подтверждение в `approver` (на данный момент логика подтверждения замокана). Между `approver` и `mailer` настроен брокер сообщений `Kafka`. В случае подтверждения регистрации в `approver`, соответствующее сообщение отправляется в `mailer` для дальнейшей отправки почты на `email` пользователя. 
+A project with microservice architecture. `api` accepts a `RegistrationRequest`, which gains `UUID` by `idgenerator`(used for checking the `RegistrationRequest` status). The request is then approved/verified by `approver` (mocked for now). Approved request trigger `mailer` to send email to a requested adress (mocked as well). 
 
-### Использованные технологии:
+### Tech stack:
 
 - Kotlin
 - Spring Boot
@@ -34,3 +34,5 @@
 - Kafka
 - MockK
 - Truth
+- Wiremock
+- Spring Cloud Contract
