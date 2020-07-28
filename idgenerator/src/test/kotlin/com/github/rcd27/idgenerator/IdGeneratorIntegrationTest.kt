@@ -28,4 +28,16 @@ class IdGeneratorIntegrationTest(@Autowired val webClient: WebTestClient) {
 
         Truth.assertThat(firstResponse).doesNotMatch(secondResponse)
     }
+
+    @Test
+    fun `should return id without parenthesis`() {
+        val id = webClient.get()
+                .uri("api/v1/id/generate")
+                .exchange()
+                .expectStatus().isOk
+                .expectBody(String::class.java)
+                .returnResult().responseBody
+
+        Truth.assertThat(id).doesNotContain("\"")
+    }
 }
