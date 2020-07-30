@@ -19,6 +19,7 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import reactor.core.publisher.Mono
 
+// FIXME stub-runner: stubs seem to be found, however 'connection refused' exception is thrown
 @AutoConfigureStubRunner(
     stubsMode = StubRunnerProperties.StubsMode.LOCAL,
     ids = ["com.github.rcd27.idgenerator:8081"],
