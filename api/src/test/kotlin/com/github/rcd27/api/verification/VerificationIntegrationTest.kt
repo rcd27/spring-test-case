@@ -6,7 +6,6 @@ import com.github.rcd27.api.approval.data.ApprovalResponse
 import com.github.rcd27.api.approval.data.ApprovalStatus
 import com.github.rcd27.api.entities.dto.VerificationRequest
 import com.github.rcd27.api.entities.persist.VerificationProcess.VerificationStatus.*
-import com.github.rcd27.api.idgeneration.data.IdGenerationRepository
 import com.google.common.truth.Truth
 import com.ninjasquad.springmockk.SpykBean
 import io.mockk.every
@@ -19,7 +18,10 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import reactor.core.publisher.Mono
 
-@AutoConfigureStubRunner(ids = ["com.github.rcd27.idgenerator"])
+@AutoConfigureStubRunner(
+    ids = ["com.github.rcd27.idgenerator:8081"],
+    failOnNoStubs = true
+)
 @SpringBootTest(
     properties = ["api.idgeneratorUrl=http://localhost:8081"],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
