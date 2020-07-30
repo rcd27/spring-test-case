@@ -14,11 +14,13 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner
+import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties
 import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import reactor.core.publisher.Mono
 
 @AutoConfigureStubRunner(
+    stubsMode = StubRunnerProperties.StubsMode.LOCAL,
     ids = ["com.github.rcd27.idgenerator:8081"],
     failOnNoStubs = true
 )
@@ -27,9 +29,6 @@ import reactor.core.publisher.Mono
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 class VerificationIntegrationTest(@Autowired private val webClient: WebTestClient) {
-
-//    @SpykBean
-//    lateinit var idGenerationRepository: IdGenerationRepository
 
     @SpykBean
     lateinit var approvalRepository: ApprovalRepository
