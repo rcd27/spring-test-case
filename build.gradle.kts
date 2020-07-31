@@ -9,10 +9,6 @@ buildscript {
         mavenCentral()
         jcenter()
     }
-
-    dependencies {
-        val kotlinVersion = "1.3.72"
-    }
 }
 
 plugins {
@@ -38,7 +34,11 @@ dependencyManagement {
 tasks.register("cleanRebuild") {
     exec {
         executable("./gradlew")
-        args("clean", "api:assemble", "idgenerator:assemble", "approver:assemble", "mailer:assemble")
+        args("clean",
+            "api:assemble",
+            "idgenerator:assemble",
+            "approver:assemble",
+            "mailer:assemble")
     }
 }
 
@@ -81,8 +81,6 @@ subprojects {
 
         testImplementation("io.rest-assured:spring-web-test-client:4.3.1")
         testImplementation("io.rest-assured:rest-assured-common:4.3.1")
-
-        implementation("com.vanniktech:gradle-maven-publish-plugin:0.12.0")
     }
 }
 

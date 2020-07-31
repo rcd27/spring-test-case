@@ -11,6 +11,10 @@ dependencies {
     contracts {
         setBaseClassForTests("com.github.rcd27.idgenerator.BaseContractTest")
     }
+
+    tasks.getByName("assemble") {
+        dependsOn("publishToMavenLocal")
+    }
 }
 
 group = "com.github.rcd27.idgenerator"
