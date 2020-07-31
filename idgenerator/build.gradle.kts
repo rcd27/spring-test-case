@@ -2,6 +2,7 @@ apply {
     plugin("io.spring.dependency-management")
     plugin("org.springframework.boot")
     plugin("groovy")
+    plugin("maven-publish")
 }
 
 dependencies {

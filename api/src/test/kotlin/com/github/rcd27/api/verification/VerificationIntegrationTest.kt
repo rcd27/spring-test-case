@@ -19,14 +19,13 @@ import org.springframework.test.web.reactive.server.WebTestClient
 import org.springframework.test.web.reactive.server.expectBody
 import reactor.core.publisher.Mono
 
-// FIXME stub-runner: stubs seem to be found, however 'connection refused' exception is thrown
 @AutoConfigureStubRunner(
+    failOnNoStubs = true,
     stubsMode = StubRunnerProperties.StubsMode.LOCAL,
-    ids = ["com.github.rcd27.idgenerator:8081"],
-    failOnNoStubs = true
+    ids = ["com.github.rcd27.idgenerator:idgenerator:+:8081"]
 )
 @SpringBootTest(
-    properties = ["api.idgeneratorUrl=http://localhost:8081"],
+    properties = ["api.idgeneratorUrl=http://localhost:8081/"],
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 class VerificationIntegrationTest(@Autowired private val webClient: WebTestClient) {

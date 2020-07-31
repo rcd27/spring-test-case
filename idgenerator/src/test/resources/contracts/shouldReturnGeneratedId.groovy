@@ -8,7 +8,7 @@ Contract.make {
     description("Should return generated id")
 
     request {
-        url("http://localhost:8081/api/v1/id/generate")
+        url("/api/v1/id/generate")
         method(GET.methodName)
     }
 

@@ -24,6 +24,9 @@ plugins {
     // Cloud Contract
     id("groovy")
     id("org.springframework.cloud.contract") version "2.2.3.RELEASE"
+
+    // For publishing spring-cloud-contract stubs to local maven repository
+    id("maven-publish")
 }
 
 dependencyManagement {
@@ -78,6 +81,8 @@ subprojects {
 
         testImplementation("io.rest-assured:spring-web-test-client:4.3.1")
         testImplementation("io.rest-assured:rest-assured-common:4.3.1")
+
+        implementation("com.vanniktech:gradle-maven-publish-plugin:0.12.0")
     }
 }
 
