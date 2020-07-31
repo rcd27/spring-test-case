@@ -38,7 +38,7 @@ A project with microservice architecture. `api` accepts a `RegistrationRequest`,
 - Spring Cloud Contract
 
 #### Additional info:
-Project uses `spring-cloud-contract` to be sure that microservices follow the contract and work properly. For now, it is implemented for `api`(Consumer) and `idgenerator`(Producer). To generate stubs and publish them to a local Maven repository, use:
+Project uses `spring-cloud-contract` to be sure microservices follow the contract and work properly. For now, it is implemented for `api`(Consumer) and `idgenerator`(Producer). To generate stubs and publish them to a local Maven repository, use:
 ```
 ./gradlew clean idgenerator:build idgenerator:publishToMavenLocal -x test
 ```
