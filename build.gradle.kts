@@ -18,7 +18,6 @@ plugins {
     kotlin("plugin.spring") version "1.3.72"
 
     // Cloud Contract
-    id("groovy")
     id("org.springframework.cloud.contract") version "2.2.3.RELEASE"
 
     // For publishing spring-cloud-contract stubs to local maven repository
@@ -67,8 +66,10 @@ subprojects {
             exclude(module = "mockito-core")
         }
         testImplementation("io.projectreactor:reactor-test:3.3.7.RELEASE")
+
         testImplementation("org.springframework.cloud:spring-cloud-contract-wiremock:2.2.3.RELEASE")
         testImplementation("org.springframework.cloud:spring-cloud-contract-stub-runner:2.2.3.RELEASE")
+        testImplementation("org.springframework.cloud:spring-cloud-contract-spec-kotlin:2.2.3.RELEASE")
 
         testImplementation("org.springframework.kafka:spring-kafka-test:2.5.3.RELEASE")
 
