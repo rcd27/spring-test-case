@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 open class ApproverApplication
 
 fun main(args: Array<String>) {
-    runApplication<ApproverApplication>(*args)
+  runApplication<ApproverApplication>(*args)
 }

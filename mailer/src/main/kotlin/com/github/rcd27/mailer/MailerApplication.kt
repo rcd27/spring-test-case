@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 open class MailerApplication
 
 fun main() {
-    runApplication<MailerApplication>()
+  runApplication<MailerApplication>()
 }

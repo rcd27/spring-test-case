@@ -6,5 +6,5 @@ data class ApprovalResponse(
 )
 
 enum class ApprovalStatus {
-    Approved, Denied
+  Approved, Denied
 }

@@ -1,20 +1,20 @@
 apply {
-    plugin("io.spring.dependency-management")
-    plugin("org.springframework.boot")
-    plugin("groovy")
-    plugin("maven-publish")
+  plugin("io.spring.dependency-management")
+  plugin("org.springframework.boot")
+  plugin("groovy")
+  plugin("maven-publish")
 }
 
 dependencies {
-    testImplementation("org.springframework.cloud:spring-cloud-contract-verifier:2.2.3.RELEASE")
+  testImplementation("org.springframework.cloud:spring-cloud-contract-verifier:2.2.3.RELEASE")
 
-    contracts {
-        setBaseClassForTests("com.github.rcd27.idgenerator.BaseContractTest")
-    }
+  contracts {
+    setBaseClassForTests("com.github.rcd27.idgenerator.BaseContractTest")
+  }
 
-    tasks.getByName("assemble") {
-        dependsOn("publishToMavenLocal")
-    }
+  tasks.getByName("assemble") {
+    dependsOn("publishToMavenLocal")
+  }
 }
 
 group = "com.github.rcd27.idgenerator"

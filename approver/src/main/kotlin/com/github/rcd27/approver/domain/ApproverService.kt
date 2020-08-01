@@ -12,34 +12,34 @@ import reactor.core.publisher.Mono
 @Service
 @Suppress("SpringJavaInjectionPointsAutowiringInspection")
 class ApproverService(
-        private val requestValidator: RequestValidator,
-        private val kafkaTemplate: KafkaTemplate<String, String>
+    private val requestValidator: RequestValidator,
+    private val kafkaTemplate: KafkaTemplate<String, String>
 ) {
 
-    fun sendForApproval(input: ApprovalRequest): Mono<ApprovalResponse> {
-        /** For simplicity - validation is mocked and every request is approved */
-        return requestValidator.validate(input)
-                .map { validationResult: ValidationResult ->
-                    when (validationResult) {
-                        is Valid -> {
+  fun sendForApproval(input: ApprovalRequest): Mono<ApprovalResponse> {
+    /** For simplicity - validation is mocked and every request is approved */
+    return requestValidator.validate(input)
+        .map { validationResult: ValidationResult ->
+          when (validationResult) {
+            is Valid -> {
 
-                            val json: String = jacksonObjectMapper().writeValueAsString(
-                                    MailerRequest(input.verificationId, "Approved")
-                            )
-                            kafkaTemplate.send("mailerTopic", json)
+              val json: String = jacksonObjectMapper().writeValueAsString(
+                  MailerRequest(input.verificationId, "Approved")
+              )
+              kafkaTemplate.send("mailerTopic", json)
 
-                            ApprovalResponse(
-                                    input,
-                                    ApprovalStatus.Approved
-                            )
-                        }
+              ApprovalResponse(
+                  input,
+                  ApprovalStatus.Approved
+              )
+            }
 
-                        is Invalid ->
-                            ApprovalResponse(
-                                    input,
-                                    ApprovalStatus.Denied
-                            )
-                    }
-                }
-    }
+            is Invalid ->
+              ApprovalResponse(
+                  input,
+                  ApprovalStatus.Denied
+              )
+          }
+        }
+  }
 }

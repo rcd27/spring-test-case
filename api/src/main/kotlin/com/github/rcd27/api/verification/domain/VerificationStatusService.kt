@@ -11,27 +11,27 @@ import reactor.kotlin.core.publisher.switchIfEmpty
 @Service
 class VerificationStatusService(private val verificationProcessRepository: VerificationProcessRepository) {
 
-    fun checkVerificationStatus(id: String): Mono<String> =
-            verificationProcessRepository.findById(id)
-                    .map { it.status.toString() }
-                    .switchIfEmpty {
-                        Mono.error(NoProcessForIdException(id))
-                    }
+  fun checkVerificationStatus(id: String): Mono<String> =
+      verificationProcessRepository.findById(id)
+          .map { it.status.toString() }
+          .switchIfEmpty {
+            Mono.error(NoProcessForIdException(id))
+          }
 
-    fun saveApprovalResult(approvalResponse: ApprovalResponse): Mono<VerificationProcess> {
+  fun saveApprovalResult(approvalResponse: ApprovalResponse): Mono<VerificationProcess> {
 
-        val status = when (approvalResponse.status) {
-            ApprovalStatus.Approved -> VerificationProcess.VerificationStatus.APPROVED
-            ApprovalStatus.Denied -> VerificationProcess.VerificationStatus.DECLINED
-        }
-
-        return verificationProcessRepository.save(
-                VerificationProcess(
-                        approvalResponse.request.verificationId,
-                        status
-                )
-        )
+    val status = when (approvalResponse.status) {
+      ApprovalStatus.Approved -> VerificationProcess.VerificationStatus.APPROVED
+      ApprovalStatus.Denied -> VerificationProcess.VerificationStatus.DECLINED
     }
+
+    return verificationProcessRepository.save(
+        VerificationProcess(
+            approvalResponse.request.verificationId,
+            status
+        )
+    )
+  }
 }
 
 class NoProcessForIdException(val id: String) : Throwable("No process for such id: $id")

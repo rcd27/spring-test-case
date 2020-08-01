@@ -22,6 +22,7 @@ import reactor.core.publisher.Mono
 @AutoConfigureStubRunner(
     failOnNoStubs = true,
     stubsMode = StubRunnerProperties.StubsMode.LOCAL,
+    generateStubs = true,
     ids = ["com.github.rcd27.idgenerator:idgenerator:+:8081"]
 )
 @SpringBootTest(
@@ -30,68 +31,68 @@ import reactor.core.publisher.Mono
 )
 class VerificationIntegrationTest(@Autowired private val webClient: WebTestClient) {
 
-    @SpykBean
-    lateinit var approvalRepository: ApprovalRepository
+  @SpykBean
+  lateinit var approvalRepository: ApprovalRepository
 
-    private val validRequest = VerificationRequest(
-        "Stanislav",
-        "Zemlyakov",
-        "redtom@yandex.ru",
-        "01.08.1989",
-        "Innopolis",
-        "Saint-Petersburg"
-    )
+  private val validRequest = VerificationRequest(
+      "Stanislav",
+      "Zemlyakov",
+      "redtom@yandex.ru",
+      "01.08.1989",
+      "Innopolis",
+      "Saint-Petersburg"
+  )
 
-    @Suppress("ReactiveStreamsUnusedPublisher")
-    @BeforeEach
-    fun setUp() {
-        every { approvalRepository.sendForApproval(any()) } returns Mono.just(
-            ApprovalResponse(
-                request = ApprovalRequest.fromVerificationRequest("very-unique-shit", validRequest),
-                status = ApprovalStatus.Approved
-            )
+  @Suppress("ReactiveStreamsUnusedPublisher")
+  @BeforeEach
+  fun setUp() {
+    every { approvalRepository.sendForApproval(any()) } returns Mono.just(
+        ApprovalResponse(
+            request = ApprovalRequest.fromVerificationRequest("very-unique-shit", validRequest),
+            status = ApprovalStatus.Approved
         )
-    }
+    )
+  }
 
-    @Test
-    fun `should return id of a verification process`() {
-        val idGivenForVerificationRequest = webClient.post()
-            .uri("/api/v1/verification/verify")
-            .body(Mono.just(validRequest), VerificationRequest::class.java)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult().responseBody
+  @Test
+  fun `should return id of a verification process`() {
+    val idGivenForVerificationRequest = webClient.post()
+        .uri("/api/v1/verification/verify")
+        .body(Mono.just(validRequest), VerificationRequest::class.java)
+        .exchange()
+        .expectStatus().isOk
+        .expectBody(String::class.java)
+        .returnResult().responseBody
 
-        Truth.assertThat(idGivenForVerificationRequest).isNotEmpty()
-    }
+    Truth.assertThat(idGivenForVerificationRequest).isNotEmpty()
+  }
 
-    @Test
-    fun `should return bad request for verification process which doesn't exist`() {
-        webClient.get()
-            .uri("/api/v1/verification/status/123")
-            .exchange()
-            .expectStatus().isBadRequest
-    }
+  @Test
+  fun `should return bad request for verification process which doesn't exist`() {
+    webClient.get()
+        .uri("/api/v1/verification/status/123")
+        .exchange()
+        .expectStatus().isBadRequest
+  }
 
-    @Test
-    fun `should return status for previously created verification process`() {
-        val idGivenForVerificationRequest = webClient.post()
-            .uri("/api/v1/verification/verify")
-            .body(Mono.just(validRequest), VerificationRequest::class.java)
-            .exchange()
-            .expectStatus().isOk
-            .expectBody(String::class.java)
-            .returnResult().responseBody
+  @Test
+  fun `should return status for previously created verification process`() {
+    val idGivenForVerificationRequest = webClient.post()
+        .uri("/api/v1/verification/verify")
+        .body(Mono.just(validRequest), VerificationRequest::class.java)
+        .exchange()
+        .expectStatus().isOk
+        .expectBody(String::class.java)
+        .returnResult().responseBody
 
-        val body = webClient.get()
-            .uri("/api/v1/verification/status/$idGivenForVerificationRequest")
-            .exchange()
-            .expectStatus().isOk
-            .expectBody<String>()
-            .returnResult()
-            .responseBody
+    val body = webClient.get()
+        .uri("/api/v1/verification/status/$idGivenForVerificationRequest")
+        .exchange()
+        .expectStatus().isOk
+        .expectBody<String>()
+        .returnResult()
+        .responseBody
 
-        Truth.assertThat(body).isAnyOf(APPROVED.toString(), DECLINED.toString(), IN_PROGRESS.toString())
-    }
+    Truth.assertThat(body).isAnyOf(APPROVED.toString(), DECLINED.toString(), IN_PROGRESS.toString())
+  }
 }

@@ -6,5 +6,5 @@ data class MailerRequest(
 )
 
 enum class ApprovalStatus {
-    Approved, Denied
+  Approved, Denied
 }

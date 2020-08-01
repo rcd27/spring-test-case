@@ -7,15 +7,15 @@ import org.springframework.web.reactive.function.server.router
 
 @Configuration
 open class IdGeneratorRoutes(
-        private val idGeneratorHandler: IdGeneratorHandler
+    private val idGeneratorHandler: IdGeneratorHandler
 ) {
 
-    @Bean
-    open fun router() = router {
-        (accept(MediaType.APPLICATION_JSON) and "/api/v1/").nest {
-            "/id".nest {
-                GET("/generate", idGeneratorHandler::generateUniqueId)
-            }
-        }
+  @Bean
+  open fun router() = router {
+    (accept(MediaType.APPLICATION_JSON) and "/api/v1/").nest {
+      "/id".nest {
+        GET("/generate", idGeneratorHandler::generateUniqueId)
+      }
     }
+  }
 }

@@ -14,23 +14,23 @@ import reactor.test.StepVerifier
 @AutoConfigureWireMock(port = 0)
 class ApprovalRepositoryTest(@Autowired private val approvalRepository: ApprovalRepository) {
 
-    private val validRequest = VerificationRequest(
-        "Stanislav",
-        "Zemlyakov",
-        "redtom@yandex.ru",
-        "01.08.1989",
-        "Innopolis",
-        "Saint-Petersburg"
-    )
+  private val validRequest = VerificationRequest(
+      "Stanislav",
+      "Zemlyakov",
+      "redtom@yandex.ru",
+      "01.08.1989",
+      "Innopolis",
+      "Saint-Petersburg"
+  )
 
-    @Test
-    fun `should deserialize JSON to ApprovalResponse`() {
-        stubFor(
-            post(urlEqualTo("/api/v1/approve"))
-                .willReturn(
-                    aResponse()
-                        .withHeader("Content-Type", "application/json").withBody(
-                            """
+  @Test
+  fun `should deserialize JSON to ApprovalResponse`() {
+    stubFor(
+        post(urlEqualTo("/api/v1/approve"))
+            .willReturn(
+                aResponse()
+                    .withHeader("Content-Type", "application/json").withBody(
+                        """
                             {
                                 "request": {
                                     "verificationId": "some-unique-shit",
@@ -44,20 +44,20 @@ class ApprovalRepositoryTest(@Autowired private val approvalRepository: Approval
                                 "status": "Approved"
                             }
                         """.trimIndent()
-                        )
-                )
-        )
-
-        val sendForApproval = approvalRepository.sendForApproval(
-            ApprovalRequest.fromVerificationRequest(
-                "some-unique-shit",
-                validRequest
+                    )
             )
-        )
+    )
 
-        StepVerifier.create(sendForApproval)
-            .expectNextCount(1)
-            .verifyComplete()
-    }
+    val sendForApproval = approvalRepository.sendForApproval(
+        ApprovalRequest.fromVerificationRequest(
+            "some-unique-shit",
+            validRequest
+        )
+    )
+
+    StepVerifier.create(sendForApproval)
+        .expectNextCount(1)
+        .verifyComplete()
+  }
 
 }

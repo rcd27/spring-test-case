@@ -1,6 +1,6 @@
 apply {
-    plugin("io.spring.dependency-management")
-    plugin("org.springframework.boot")
+  plugin("io.spring.dependency-management")
+  plugin("org.springframework.boot")
 }
 
 group = "com.github.rcd27.mailer"

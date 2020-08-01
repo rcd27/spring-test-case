@@ -9,8 +9,8 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @SpringBootTest
 open class BaseContractTest {
 
-    @Before
-    fun setUp() {
-        RestAssuredWebTestClient.standaloneSetup(WebTestClient.bindToServer())
-    }
+  @Before
+  fun setUp() {
+    RestAssuredWebTestClient.standaloneSetup(WebTestClient.bindToServer())
+  }
 }

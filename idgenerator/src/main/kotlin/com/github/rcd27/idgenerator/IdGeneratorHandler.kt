@@ -11,7 +11,7 @@ import java.util.*
 @Component
 object IdGeneratorHandler {
 
-    fun generateUniqueId(request: ServerRequest): Mono<ServerResponse> =
-            ServerResponse.ok().bodyValue(UUID.randomUUID().toString())
+  fun generateUniqueId(request: ServerRequest): Mono<ServerResponse> =
+      ServerResponse.ok().bodyValue(UUID.randomUUID().toString())
 
 }

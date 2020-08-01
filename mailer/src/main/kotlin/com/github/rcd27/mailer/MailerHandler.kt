@@ -19,16 +19,16 @@ import reactor.core.publisher.EmitterProcessor
 @Component
 class MailerHandler(private val messageListener: EmitterProcessor<MailerRequest>) {
 
-    @KafkaListener(topics = ["mailerTopic"])
-    fun listen(input: String) {
-        val objectMapper = jacksonObjectMapper()
-        try {
-            val mailerRequest: MailerRequest = objectMapper.readValue(input)
-            messageListener.onNext(mailerRequest)
-        } catch (jpe: JsonParseException) {
-            // TODO: implement
-        } catch (jme: JsonMappingException) {
-            // TODO: implement
-        }
+  @KafkaListener(topics = ["mailerTopic"])
+  fun listen(input: String) {
+    val objectMapper = jacksonObjectMapper()
+    try {
+      val mailerRequest: MailerRequest = objectMapper.readValue(input)
+      messageListener.onNext(mailerRequest)
+    } catch (jpe: JsonParseException) {
+      // TODO: implement
+    } catch (jme: JsonMappingException) {
+      // TODO: implement
     }
+  }
 }

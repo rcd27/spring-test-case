@@ -11,17 +11,17 @@ data class ApprovalRequest(
     val habitatCity: String?,
     val registrationCity: String?
 ) {
-    companion object {
-        @JvmStatic
-        fun fromVerificationRequest(id: String, request: VerificationRequest) =
-            ApprovalRequest(
-                verificationId = id,
-                firstName = request.firstName,
-                registrationCity = request.registrationCity,
-                habitatCity = request.habitatCity,
-                email = request.email,
-                dateOfBirth = request.dateOfBirth,
-                lastName = request.lastName
-            )
-    }
+  companion object {
+    @JvmStatic
+    fun fromVerificationRequest(id: String, request: VerificationRequest) =
+        ApprovalRequest(
+            verificationId = id,
+            firstName = request.firstName,
+            registrationCity = request.registrationCity,
+            habitatCity = request.habitatCity,
+            email = request.email,
+            dateOfBirth = request.dateOfBirth,
+            lastName = request.lastName
+        )
+  }
 }

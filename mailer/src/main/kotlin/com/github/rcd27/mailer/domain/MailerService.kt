@@ -8,11 +8,11 @@ import javax.annotation.PostConstruct
 @Service
 class MailerService(private val mailerRequestProcessor: EmitterProcessor<MailerRequest>) {
 
-    @PostConstruct
-    fun subscribeForRequests() {
-        mailerRequestProcessor.subscribe(
-            { println("MailerService received: $it") },
-            {}
-        )
-    }
+  @PostConstruct
+  fun subscribeForRequests() {
+    mailerRequestProcessor.subscribe(
+        { println("MailerService received: $it") },
+        {}
+    )
+  }
 }

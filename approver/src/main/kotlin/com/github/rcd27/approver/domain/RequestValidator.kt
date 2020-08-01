@@ -7,11 +7,11 @@ import reactor.core.publisher.Mono
 @Component
 object RequestValidator {
 
-    fun validate(input: ApprovalRequest): Mono<ValidationResult> {
+  fun validate(input: ApprovalRequest): Mono<ValidationResult> {
 
-        // TODO: implement
-        return Mono.just(Valid)
-    }
+    // TODO: implement
+    return Mono.just(Valid)
+  }
 }
 
 sealed class ValidationResult

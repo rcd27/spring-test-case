@@ -9,13 +9,13 @@ import org.springframework.web.reactive.function.server.router
 @Configuration
 open class ApiRoutes(private val verificationHandler: VerificationHandler) {
 
-    @Bean
-    open fun apiRouter() = router {
-        (accept(MediaType.APPLICATION_JSON) and "/api/v1").nest {
-            "/verification".nest {
-                POST("/verify", verificationHandler::verify)
-                GET("/status/{id}", verificationHandler::getStatus)
-            }
-        }
+  @Bean
+  open fun apiRouter() = router {
+    (accept(MediaType.APPLICATION_JSON) and "/api/v1").nest {
+      "/verification".nest {
+        POST("/verify", verificationHandler::verify)
+        GET("/status/{id}", verificationHandler::getStatus)
+      }
     }
+  }
 }

@@ -13,46 +13,46 @@ import reactor.core.publisher.Mono
 
 @Component
 class VerificationHandler(
-        private val idGenerationService: IdGenerationService,
-        private val verificationService: VerificationService,
-        private val verificationStatusService: VerificationStatusService,
-        private val approvalService: ApprovalService
+    private val idGenerationService: IdGenerationService,
+    private val verificationService: VerificationService,
+    private val verificationStatusService: VerificationStatusService,
+    private val approvalService: ApprovalService
 ) {
 
-    fun verify(request: ServerRequest): Mono<ServerResponse> =
-            request.bodyToMono(VerificationRequest::class.java).flatMap { input ->
-                idGenerationService.getUniqueId()
-                        .flatMap { uniqueId -> verificationService.verify(uniqueId, input) }
-                        .flatMap { (id, request) -> approvalService.sendForApproval(id, request) }
-                        .flatMap { verificationStatusService.saveApprovalResult(it) }
-                        .flatMap { verificationProcess ->
-                            ServerResponse.ok().bodyValue(verificationProcess.id)
-                        }
+  fun verify(request: ServerRequest): Mono<ServerResponse> =
+      request.bodyToMono(VerificationRequest::class.java).flatMap { input ->
+        idGenerationService.getUniqueId()
+            .flatMap { uniqueId -> verificationService.verify(uniqueId, input) }
+            .flatMap { (id, request) -> approvalService.sendForApproval(id, request) }
+            .flatMap { verificationStatusService.saveApprovalResult(it) }
+            .flatMap { verificationProcess ->
+              ServerResponse.ok().bodyValue(verificationProcess.id)
             }
+      }
 
-    @Suppress("ReactiveStreamsUnusedPublisher")
-    fun getStatus(request: ServerRequest): Mono<ServerResponse> {
-        return try {
-            val id = request.pathVariable("id")
-            verificationStatusService
-                    .checkVerificationStatus(id)
-                    .flatMap {
-                        ServerResponse.ok().bodyValue(it)
-                    }
-                    .onErrorResume {
-                        when (it) {
-                            is NoProcessForIdException ->
-                                ServerResponse
-                                        .badRequest()
-                                        .bodyValue(it.message!!)
-
-                            else -> ServerResponse.badRequest().build()
-                        }
-                    }
-        } catch (e: IllegalArgumentException) {
-            ServerResponse
+  @Suppress("ReactiveStreamsUnusedPublisher")
+  fun getStatus(request: ServerRequest): Mono<ServerResponse> {
+    return try {
+      val id = request.pathVariable("id")
+      verificationStatusService
+          .checkVerificationStatus(id)
+          .flatMap {
+            ServerResponse.ok().bodyValue(it)
+          }
+          .onErrorResume {
+            when (it) {
+              is NoProcessForIdException ->
+                ServerResponse
                     .badRequest()
-                    .bodyValue("No parameter `id` is provided")
-        }
+                    .bodyValue(it.message!!)
+
+              else -> ServerResponse.badRequest().build()
+            }
+          }
+    } catch (e: IllegalArgumentException) {
+      ServerResponse
+          .badRequest()
+          .bodyValue("No parameter `id` is provided")
     }
+  }
 }

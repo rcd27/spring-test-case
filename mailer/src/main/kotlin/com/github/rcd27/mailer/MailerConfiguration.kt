@@ -8,7 +8,7 @@ import reactor.core.publisher.EmitterProcessor
 @Configuration
 open class MailerConfiguration {
 
-    @Bean
-    open fun provideMailerRequestProcessor(): EmitterProcessor<MailerRequest> = EmitterProcessor.create()
+  @Bean
+  open fun provideMailerRequestProcessor(): EmitterProcessor<MailerRequest> = EmitterProcessor.create()
 
 }

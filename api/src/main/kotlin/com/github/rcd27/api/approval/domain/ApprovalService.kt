@@ -10,8 +10,8 @@ import reactor.core.publisher.Mono
 @Service
 class ApprovalService(private val approvalRepository: ApprovalRepository) {
 
-    fun sendForApproval(id: String, request: VerificationRequest): Mono<ApprovalResponse> =
-        approvalRepository.sendForApproval(
-            ApprovalRequest.fromVerificationRequest(id, request)
-        )
+  fun sendForApproval(id: String, request: VerificationRequest): Mono<ApprovalResponse> =
+      approvalRepository.sendForApproval(
+          ApprovalRequest.fromVerificationRequest(id, request)
+      )
 }

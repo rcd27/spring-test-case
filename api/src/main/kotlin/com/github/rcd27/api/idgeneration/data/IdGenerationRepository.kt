@@ -11,9 +11,9 @@ class IdGenerationRepository(
     @Value("\${api.idgeneratorUrl:http://idgenerator:8081}") private val idGeneratorUrl: String
 ) {
 
-    fun generateUniqueId(): Mono<String> =
-        webClient.get()
-            .uri("$idGeneratorUrl/api/v1/id/generate")
-            .retrieve()
-            .bodyToMono(String::class.java)
+  fun generateUniqueId(): Mono<String> =
+      webClient.get()
+          .uri("$idGeneratorUrl/api/v1/id/generate")
+          .retrieve()
+          .bodyToMono(String::class.java)
 }

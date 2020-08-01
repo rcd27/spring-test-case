@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 open class IdGeneratorApplication
 
 fun main() {
-    runApplication<IdGeneratorApplication>()
+  runApplication<IdGeneratorApplication>()
 }
