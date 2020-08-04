@@ -1,7 +1,7 @@
 import org.springframework.cloud.contract.spec.ContractDsl.Companion.contract
 
 contract {
-    name = "some name"
+    name = "IdGenerator"
     description = "Should return generated id"
 
     request {
