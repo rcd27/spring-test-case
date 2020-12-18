@@ -10,19 +10,28 @@ import org.junit.Rule
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.http.MediaType
 import org.springframework.kafka.test.rule.EmbeddedKafkaRule
 import org.springframework.test.web.reactive.server.WebTestClient
 import reactor.core.publisher.Mono
 
+// 42 sec without this
+// 27 sec with this
+@ComponentScan(lazyInit = true)
+class LazyTestConfig
+
 @Suppress("ReactiveStreamsUnusedPublisher")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+    classes = [LazyTestConfig::class],
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
 class ApproverIntegrationTest(@Autowired private val webClient: WebTestClient) {
 
-  @Rule
-  @JvmField
-  val rule: EmbeddedKafkaRule = EmbeddedKafkaRule(1)
-      .kafkaPorts(1092)
+    @Rule
+    @JvmField
+    val rule: EmbeddedKafkaRule = EmbeddedKafkaRule(1)
+        .kafkaPorts(1092)
 
   @SpykBean
   lateinit var validator: RequestValidator
